@@ -1,4 +1,30 @@
-
+// const ctx = canvas.getContext("2d");
+// let img = new Image();
+// img.src = "img/road-project-pic.jpg";
+// img.onload = () => {
+//     ctx.imageSmoothingQuality = "low";
+//     ctx.drawImage(img, 0, 0, 300, 150);
+// }
+var granimInstance = new Granim({
+    element: '.main',
+    direction: 'top-bottom',
+    isPausedWhenNotInView: true,
+    
+    image : {
+        source: 'img/road-project-pic.jpg',
+        blendingMode: 'multiply'
+    },
+    states : {
+        "default-state": {
+            gradients: [
+                ['#eee7df', '#dbcbbe'],
+                ['#b0988e', '#f7f0c6'],
+                ['#abded7', '#4d8581']
+            ]
+        }
+    }
+  
+});
 
 
 //GOAL: Dynamically add years 2024 to 2007 to get-car-year
