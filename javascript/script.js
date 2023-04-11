@@ -1,7 +1,24 @@
+
+
+// ROY-GET-ELEMENT
+// ROY-GET-ELEMENT
+// DANIEL-GET-ELEMENT
 let getCarYear = document.getElementById("get-car-year");
 let getCarMake = document.getElementById("get-car-make");
 let carInfo = document.getElementById("car-info");
+// DANIEL-GET-ELEMENT
+// VICTORIA-GET-ELEMENT
+// VICTORIA-GET-ELEMENT
 
+
+// ROY-FUNCTIONS
+// ROY-FUNCTIONS
+// DANIEL-FUNCTIONS
+let siteInitialized = false;
+let init = () => {
+
+    initializeOptions();
+}
 
     //Handler for this select
     //Once the year is selected, perform our queries.
@@ -12,11 +29,40 @@ let carInfo = document.getElementById("car-info");
 
 //Sets the first option to each menu below the selected option to "please select"
 //create options of available years
-let siteInitialized = false;
-let init = () => {
 
-    initializeOptions();
-}
+
+//need to make a selection changer.
+//Once you change a selection, change the options below it back to default.
+
+
+
+//REDRAW user options each time they select an option above.
+
+//create an option in the select area for every year.
+
+//when the user selects a year from the options, then
+
+
+
+//As I select an option, it will reset options DOWN the DOM chain.
+//This way, if a user decides to change a year or something, it will reset the form.
+
+//If user hits "Get ID" Button, it will yell at the user to enter in information.
+
+//Make an API call to get the makes and put those in as an option for each make
+
+//After the user has selected a make
+
+//api call to get each car model, put those in as an option for each model
+
+//after user has selected a model
+
+//api call to get each car engine
+
+//after user has selected an engine
+
+//api call to get the average mpg.
+
 //draws options for the inputted list ID.
 let drawOptions = (items, list) => {
     //Empty the list
@@ -102,42 +148,46 @@ let initializeOptions = (redrawMe) => {
 
 //Initializes website
 init();
+// DANIEL-FUNCTIONS
+// VICTORIA-FUNCTIONS!
+// VICTORIA-FUNCTIONS
 
+// const ctx = canvas.getContext("2d");
+// let img = new Image();
+// img.src = "img/road-project-pic.jpg";
+// img.onload = () => {
+//     ctx.imageSmoothingQuality = "low";
+//     ctx.drawImage(img, 0, 0, 300, 150);
+// }
+var granimInstance = new Granim({
+    element: '.main',
+    direction: 'top-bottom',
+    isPausedWhenNotInView: true,
 
+    image : {
+        source: 'img/road-project-pic.jpg',
+        blendingMode: 'multiply'
+    },
+    states : {
+        "default-state": {
+            gradients: [
+                ['#eee7df', '#dbcbbe'],
+                ['#b0988e', '#f7f0c6'],
+                ['#abded7', '#4d8581']
+            ]
+        }
+    }
 
+});
 
-//Listens for a change in the event on the carInfo Form
-getCarYear.addEventListener("change", (event) => {
-    let year = event.target.value;
-    drawCarMake(year);
-})
-
-//need to make a selection changer.
-//Once you change a selection, change the options below it back to default.
-
-
-
-//REDRAW user options each time they select an option above.
-
-//create an option in the select area for every year.
-
-//when the user selects a year from the options, then
-
-//Make an API call to get the makes and put those in as an option for each make
-
-//After the user has selected a make
-
-//api call to get each car model, put those in as an option for each model
-
-//after user has selected a model
-
-//api call to get each car engine
-
-//after user has selected an engine
-
-//api call to get the average mpg.
-
-//As I select an option, it will reset options DOWN the DOM chain.
-//This way, if a user decides to change a year or something, it will reset the form.
-
-//If user hits "Get ID" Button, it will yell at the user to enter in information.
+// ROY-EVENT-LISTENERS
+// ROY-EVENT-LISTENERS
+// DANIEL-EVENT-LISTENERS
+    //Listens for a change in the event on the carInfo Form
+    getCarYear.addEventListener("change", (event) => {
+        let year = event.target.value;
+        drawCarMake(year);
+    })
+// DANIEL-EVENT-LISTENERS
+// VICTORIA-EVENT-LISTENERS
+// VICTORIA-EVENT-LISTENERS
