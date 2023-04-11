@@ -5,88 +5,106 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>travlr!</title>
 </head>
 
 <body>
-    <div class="main">
-        <header>
-            <img id="travlr-logo">
-            <h1 id="travlr-text">travlr!</h1>
+    <div class="container">
+        <header class="row">
+            <div class="col s4">
+                <img id="travlr-logo">
+                <h1 id="travlr-text">travlr!</h1>
+            </div>
+
         </header>
-        <section id="location-routing">
-            <div>
-                <form id="location-form">
-                    <label for="start-location"></label>
-                    <input id="start-location" type="text" placeholder="Start Location" id="location-form-start">
-                    <label for="end-location"></label>
-                    <input id="end-location" type="text" placeholder="End Location" id="location-form-end">
-                </form>
-            </div>
-            <div>
-                <label for="avoid-tolls-box">Avoid Tolls</label>
-                <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
-                <label for="get-route"></label>
-                <input id="get-route" type="button" placeholder="Get Route" id="get-route-button" value="Get Route">
-            </div>
-        </section>
-        <section id="gas-calculation">
-            <form id="car-info">
-                <label for="get-car-year"></label>
-                <select id="get-car-year"></select>
-                <label for="get-car-make"></label>
-                <select id="get-car-make"></select>
-                <label for="get-car-model"></label>
-                <select id="get-car-model"></select>
-                <label for="get-car-engine"></label>
-                <select id="get-car-engine"></select>
-                <p id="get-average-mpg">
-            </form>
-        </section>
-        <section>
-            <img id="routing-image">
-        </section>
-        <section id="budget-information">
-            <div id="trip-summary">
-                <h2>
-                    Trip Summary
-                </h2>
+        <div class="row">
+            <div class="col s3">
+                <section id="location-routing">
+                    <div>
+                        <form id="location-form">
+                            <label for="start-location"></label>
+                            <input id="start-location" type="text" placeholder="Start Location"
+                                id="location-form-start">
+                            <label for="end-location"></label>
+                            <input id="end-location" type="text" placeholder="End Location" id="location-form-end">
+                        </form>
+                    </div>
+                    <div>
+                        <label for="avoid-tolls-box">Avoid Tolls</label>
+                        <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
+                        <label for="get-route"></label>
+                        <input id="get-route" type="button" placeholder="Get Route" id="get-route-button"
+                            value="Get Route">
+                    </div>
+                </section>
                 <hr>
-                <ul id="trip-info-box">
-                    <li id="trip-info-distance">
-
-                    </li>
-                    <li id="trip-info-average-mpg">
-
-                    </li>
-                    <li id="trip-info-tolls-avoided">
-
-                    </li>
-                </ul>
+                <section id="gas-calculation">
+                    <form id="car-info">
+                        <!--Daniel's Section-->
+                        <label for="get-car-year">Get Car Year</label>
+                        <select id="get-car-year"></select>
+                        <label for="get-car-make">Get Car Make</label>
+                        <select id="get-car-make"></select>
+                        <label for="get-car-model">Get Car model</label>
+                        <select id="get-car-model"></select>
+                        <label for="get-car-engine">Get Car Engine</label>
+                        <select id="get-car-engine"></select>
+                        <p id="get-average-mpg">Your MPG: <span id="gas-mpg-output"></span></p>
+                        <!--Daniel's Section-->
+                    </form>
+                </section>
             </div>
-            <div id="budget-calculation-container">
-                <form id="user-budget-input">
-                    <label for="user-total-budget">
-                    </label>
-                    <input id="user-total-budget" type="number">
-                    <label for="user-budget-snacks">
-                    </label>
-                    <input id="user-budget-snacks" type="number">
-                </form>
-                <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
-                <hr>
-                <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
-            </div>
-        </section>
+            <section class="col s9">
+                <img id="routing-image">
+            </section>
+        </div>
+        <div class="row">
+
+            <section id="budget-information" class="col s12">
+                <div id="trip-summary" class="col s4">
+                    <h2>
+                        Trip Summary
+                    </h2>
+                    <hr>
+                    <ul id="trip-info-box">
+                        <li id="trip-info-distance">
+
+                        </li>
+                        <li id="trip-info-average-mpg">
+
+                        </li>
+                        <li id="trip-info-tolls-avoided">
+
+                        </li>
+                    </ul>
+                </div>
+                <div id="budget-calculation-container" class="col s4">
+                    <form id="user-budget-input">
+                        <label for="user-total-budget">
+                        </label>
+                        <input id="user-total-budget" type="number">
+                        <label for="user-budget-snacks">
+                        </label>
+                        <input id="user-budget-snacks" type="number">
+                    </form>
+                    <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
+                    <hr>
+                    <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
+                </div>
+                <div class="col s4">
+
+                </div>
+            </section>
+        </div>
         <!-- Get Route Information Section -->
         <!-- Gas Calculation Section -->
         <!-- Bing Static Image -->
         <!-- Trip Information Section -->
     </div>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/granim/2.0.0/granim.min.js"></script>
     <script src="javascript/script.js"></script>
