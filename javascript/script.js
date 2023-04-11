@@ -66,7 +66,7 @@ let drawOptions = (items, list) => {
 
 let getMPG = (val) => {
     let url = `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${val}`
-
+    console.log(val);
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
@@ -224,23 +224,28 @@ var granimInstance = new Granim({
             initializeOptions(getCarYear)
             initializeYears(getCarYear)
             initializeOptions(getCarMake)
+            initializeOptions(getCarModel);
+            initializeOptions(getCarEngine);
         }
-        initializeOptions(getCarModel);
-        initializeOptions(getCarEngine);
 
     })
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
         if (carMake){
             drawCarModel(carYear, carMake);
+        } else {
+            initializeOptions(getCarModel);
+            initializeOptions(getCarEngine);
         }
-        initializeOptions(getCarEngine);
+
 
     })
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
         if (carModel){
             drawCarEngine(carYear, carMake, carModel);
+        } else {
+            initializeOptions(getCarEngine);
         }
 
     })
