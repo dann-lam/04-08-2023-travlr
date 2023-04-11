@@ -16,6 +16,26 @@ let init = () => {
     initializeOptions();
 }
 
+let drawButtons = (items) => {
+    let buttons = [];
+//push everything in button
+//unshift select initializer;
+}
+let drawCarMake = (year) => {
+    let items;
+    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}`
+    fetch(url, {headers: {accept: 'application/json',}})
+    .then(function (response) {
+        promise = response.json();
+        return promise;
+    })
+    .then(function (data){
+        items = data.menuItem
+        drawButtons(items);
+        //p
+    });
+}
+
 let initializeYears = () => {
 
     //start year to end year
@@ -69,7 +89,7 @@ init();
 //Listens for a change in the event on the carInfo Form
 getCarYear.addEventListener("change", (event) => {
     let year = event.target.value;
-    console.log(year);
+    drawCarMake(year);
 })
 
 //need to make a selection changer.
