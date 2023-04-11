@@ -1,5 +1,5 @@
 let getCarYear = document.getElementById("get-car-year");
-
+let getCarMake = document.getElementById("get-car-make");
 let carInfo = document.getElementById("car-info");
 
 
@@ -31,10 +31,11 @@ let initializeYears = () => {
     //append that option
     for(let i = endYear; i > startYear - 1; i--){
         let currYear = document.createElement("option");
-        currYear.value = `carYearVal-${i}`;
+        currYear.value = `${i}`;
         currYear.innerHTML = i;
         currYear.id = `carYearBtn`;
         getCarYear.appendChild(currYear)
+
     }
 
 }
@@ -51,6 +52,7 @@ let initializeOptions = (redrawMe) => {
             startOption.value = ""
             startOption.innerHTML = "Select"
             carInfo[i].appendChild(startOption);
+
         }
         siteInitialized = true;
         initializeYears();
@@ -60,6 +62,18 @@ let initializeOptions = (redrawMe) => {
 
 //Initializes website
 init();
+
+
+
+
+//Listens for a change in the event on the carInfo Form
+getCarYear.addEventListener("change", (event) => {
+    let year = event.target.value;
+    console.log(year);
+})
+
+//need to make a selection changer.
+//Once you change a selection, change the options below it back to default.
 
 
 
@@ -87,11 +101,3 @@ init();
 //This way, if a user decides to change a year or something, it will reset the form.
 
 //If user hits "Get ID" Button, it will yell at the user to enter in information.
-
-
-document.querySelector('body').addEventListener('click', function(event) {
-    //This even fires on favorited buttons.
-if(event.target.className === "storedCity"){
-    getCityCoords(event, event.target.innerText)
-}
-})
