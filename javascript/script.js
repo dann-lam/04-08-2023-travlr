@@ -8,6 +8,7 @@ let getCarMake = document.getElementById("get-car-make");
 let getCarModel = document.getElementById("get-car-model");
 let getCarEngine = document.getElementById("get-car-engine");
 let carInfo = document.getElementById("car-info");
+let mpgInfo = document.getElementById("get-average-mpg")
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -21,6 +22,7 @@ let carYear;
 let carMake;
 let carModel;
 let carEngine;
+let carMPG;
 let init = () => {
 
     initializeOptions();
@@ -85,13 +87,30 @@ let drawOptions = (items, list) => {
     //redraw the list
     for(let i = 0; i < items.length; i++){
         let currItem = items[i].text
+        let currVal = items[i].value
         let currOption = document.createElement("option");
-        currOption.value = currItem;
+        currOption.value = currVal;
         currOption.innerHTML = currItem;
         list.appendChild(currOption)
     }
     return;
 }
+
+let getMPG = (val) => {
+    let url = `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${val}`
+    fetch(url, {headers: {accept: 'application/json',}})
+    .then(function (response) {
+        promise = response.json();
+        return promise;
+    })
+    .then(function (data){
+        mpgInfo.innerHTML = (data.avgMpg);
+        console.log(mpgInfo);
+        return;
+    });
+}
+
+
 let drawCarEngine = (year, make, model) => {
     let items;
     let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
@@ -236,7 +255,7 @@ var granimInstance = new Granim({
     })
     getCarEngine.addEventListener("change", (event) => {
         carEngine = event.target.value;
-
+        getMPG(carEngine)
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
