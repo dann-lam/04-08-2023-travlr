@@ -12,14 +12,33 @@ let carInfo = document.getElementById("car-info");
 
 //Sets the first option to each menu below the selected option to "please select"
 //create options of available years
+let siteInitialized = false;
 let init = () => {
+
     initializeOptions();
 }
-
-let drawButtons = (items) => {
-    let buttons = [];
-//push everything in button
-//unshift select initializer;
+//draws options for the inputted list ID.
+let drawOptions = (items, list) => {
+    //Empty the list
+    list.innerHTML = '';
+    //Recreate start option
+    let startOption = document.createElement("option");
+    startOption.value = ""
+    startOption.innerHTML = "Select"
+    //Append to the list
+    list.appendChild(startOption);
+    //for each thing inside of the array
+    //Create a button,
+    //append it to the list
+    //redraw the list
+    for(let i = 0; i < items.length; i++){
+        let currItem = items[i].text
+        let currOption = document.createElement("option");
+        currOption.value = currItem;
+        currOption.innerHTML = currItem;
+        list.appendChild(currOption)
+    }
+    return;
 }
 let drawCarMake = (year) => {
     let items;
@@ -31,8 +50,9 @@ let drawCarMake = (year) => {
     })
     .then(function (data){
         items = data.menuItem
-        drawButtons(items);
-        //p
+
+        drawOptions(items, getCarMake);
+
     });
 }
 
@@ -62,7 +82,7 @@ let initializeYears = () => {
 let initializeOptions = (redrawMe) => {
     //condition hit if  user selects an option above the chain.
     //we reset the select options below the re-selected option
-    let siteInitialized = false;
+
     if(redrawMe){
 
     } else if (!siteInitialized){
