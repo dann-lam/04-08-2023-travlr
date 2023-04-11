@@ -5,6 +5,8 @@
 // DANIEL-GET-ELEMENT
 let getCarYear = document.getElementById("get-car-year");
 let getCarMake = document.getElementById("get-car-make");
+let getCarModel = document.getElementById("get-car-model");
+let getCarEngine = document.getElementById("get-car-engine");
 let carInfo = document.getElementById("car-info");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -15,6 +17,10 @@ let carInfo = document.getElementById("car-info");
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
 let siteInitialized = false;
+let carYear;
+let carMake;
+let carModel;
+let carEngine;
 let init = () => {
 
     initializeOptions();
@@ -85,6 +91,36 @@ let drawOptions = (items, list) => {
         list.appendChild(currOption)
     }
     return;
+}
+let drawCarEngine = (year, make, model) => {
+    let items;
+    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}` + `&make=${make}` + `&make=${model}`
+    fetch(url, {headers: {accept: 'application/json',}})
+    .then(function (response) {
+        promise = response.json();
+        return promise;
+    })
+    .then(function (data){
+        items = data.menuItem
+
+        drawOptions(items, getCarEngine);
+
+    });
+}
+let drawCarModel = (year, make) => {
+    let items;
+    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}` + `&make=${make}`
+    fetch(url, {headers: {accept: 'application/json',}})
+    .then(function (response) {
+        promise = response.json();
+        return promise;
+    })
+    .then(function (data){
+        items = data.menuItem
+
+        drawOptions(items, getCarModel);
+
+    });
 }
 let drawCarMake = (year) => {
     let items;
@@ -185,8 +221,20 @@ var granimInstance = new Granim({
 // DANIEL-EVENT-LISTENERS
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
-        let year = event.target.value;
-        drawCarMake(year);
+        carYear = event.target.value;
+        drawCarMake(carYear);
+    })
+    getCarMake.addEventListener("change", (event) => {
+        carMake = event.target.value;
+        drawCarModel(carYear, carMake);
+    })
+    getCarModel.addEventListener("change", (event) => {
+        carModel = event.target.value;
+        drawCarEngine(carYear, carMake, carModel);
+    })
+    getCarEngine.addEventListener("change", (event) => {
+        carEngine = event.target.value;
+
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
