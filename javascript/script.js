@@ -94,7 +94,7 @@ let drawOptions = (items, list) => {
 }
 let drawCarEngine = (year, make, model) => {
     let items;
-    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}` + `&make=${make}` + `&make=${model}`
+    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
@@ -103,13 +103,13 @@ let drawCarEngine = (year, make, model) => {
     .then(function (data){
         items = data.menuItem
 
-        drawOptions(items, getCarEngine);
+        return drawOptions(items, getCarEngine);
 
     });
 }
 let drawCarModel = (year, make) => {
     let items;
-    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}` + `&make=${make}`
+    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/model?year=${year}&make=${make}`
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
@@ -117,11 +117,11 @@ let drawCarModel = (year, make) => {
     })
     .then(function (data){
         items = data.menuItem
-
-        drawOptions(items, getCarModel);
-
+        return drawOptions(items, getCarModel);
     });
 }
+
+
 let drawCarMake = (year) => {
     let items;
     let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}`
@@ -133,7 +133,7 @@ let drawCarMake = (year) => {
     .then(function (data){
         items = data.menuItem
 
-        drawOptions(items, getCarMake);
+        return drawOptions(items, getCarMake);
 
     });
 }
@@ -226,10 +226,12 @@ var granimInstance = new Granim({
     })
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
+
         drawCarModel(carYear, carMake);
     })
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
+
         drawCarEngine(carYear, carMake, carModel);
     })
     getCarEngine.addEventListener("change", (event) => {
