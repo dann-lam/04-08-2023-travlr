@@ -93,7 +93,6 @@ let drawOptions = (items, list) => {
         currOption.innerHTML = currItem;
         list.appendChild(currOption)
     }
-    return;
 }
 
 let getMPG = (val) => {
@@ -152,7 +151,7 @@ let drawCarMake = (year) => {
     .then(function (data){
         items = data.menuItem
 
-        return drawOptions(items, getCarMake);
+        drawOptions(items, getCarMake);
 
     });
 }
@@ -185,7 +184,11 @@ let initializeOptions = (redrawMe) => {
     //we reset the select options below the re-selected option
 
     if(redrawMe){
-
+        redrawMe.innerHTML = '';
+        let startOption = document.createElement("option");
+        startOption.value = ""
+        startOption.innerHTML = "Select"
+        redrawMe.appendChild(startOption)
     } else if (!siteInitialized){
         //Should only be ran the first time the site is initialized.
         for(let i = 0; i < carInfo.length; i++){
@@ -241,16 +244,18 @@ var granimInstance = new Granim({
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
+        //Reinitialize make, model, and engine.
         drawCarMake(carYear);
+        initializeOptions(getCarModel);
+        initializeOptions(getCarEngine);
     })
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
-
         drawCarModel(carYear, carMake);
+        initializeOptions(getCarEngine);
     })
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
-
         drawCarEngine(carYear, carMake, carModel);
     })
     getCarEngine.addEventListener("change", (event) => {
