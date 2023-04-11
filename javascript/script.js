@@ -28,50 +28,6 @@ let init = () => {
     initializeOptions();
 }
 
-    //Handler for this select
-    //Once the year is selected, perform our queries.
-    //Once (carMake) populate the select with car make array from api
-    //We have to clear/reset the values of selections if som
-    //We could make a conditional check on the other fields if there is a match
-
-
-//Sets the first option to each menu below the selected option to "please select"
-//create options of available years
-
-
-//need to make a selection changer.
-//Once you change a selection, change the options below it back to default.
-
-
-
-//REDRAW user options each time they select an option above.
-
-//create an option in the select area for every year.
-
-//when the user selects a year from the options, then
-
-
-
-//As I select an option, it will reset options DOWN the DOM chain.
-//This way, if a user decides to change a year or something, it will reset the form.
-
-//If user hits "Get ID" Button, it will yell at the user to enter in information.
-
-//Make an API call to get the makes and put those in as an option for each make
-
-//After the user has selected a make
-
-//api call to get each car model, put those in as an option for each model
-
-//after user has selected a model
-
-//api call to get each car engine
-
-//after user has selected an engine
-
-//api call to get the average mpg.
-
-//draws options for the inputted list ID.
 let drawOptions = (items, list) => {
     //Empty the list
     list.innerHTML = '';
@@ -85,26 +41,40 @@ let drawOptions = (items, list) => {
     //Create a button,
     //append it to the list
     //redraw the list
-    for(let i = 0; i < items.length; i++){
-        let currItem = items[i].text
-        let currVal = items[i].value
+
+    //I need to have a way to detecting if there is only a singular object in "items"
+
+    if (items.text){
+        let currItem = items.text
+        let currVal = items.value
         let currOption = document.createElement("option");
         currOption.value = currVal;
         currOption.innerHTML = currItem;
         list.appendChild(currOption)
+    } else {
+        for(let i = 0; i < items.length; i++){
+            let currItem = items[i].text
+            let currVal = items[i].value
+            let currOption = document.createElement("option");
+            currOption.value = currVal;
+            currOption.innerHTML = currItem;
+            list.appendChild(currOption)
+        }
     }
+
 }
 
 let getMPG = (val) => {
     let url = `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${val}`
+
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
         return promise;
     })
     .then(function (data){
+        console.log(data);
         mpgInfo.innerHTML = (data.avgMpg);
-        console.log(mpgInfo);
         return;
     });
 }
@@ -120,7 +90,7 @@ let drawCarEngine = (year, make, model) => {
     })
     .then(function (data){
         items = data.menuItem
-
+        console.log(items);
         return drawOptions(items, getCarEngine);
 
     });
@@ -163,8 +133,6 @@ let initializeYears = () => {
     let endYear = 2024
 
     //initialize the "Start Here"
-
-
 
     //count from start to end, create an option for each
     //set that option's values
