@@ -90,7 +90,10 @@ let drawCarEngine = (year, make, model) => {
     })
     .then(function (data){
         items = data.menuItem
-        console.log(items);
+        if(!items){
+            console.log("Nothing found!")
+            console.log(items);
+        }
         return drawOptions(items, getCarEngine);
 
     });
@@ -137,6 +140,7 @@ let initializeYears = () => {
     //count from start to end, create an option for each
     //set that option's values
     //append that option
+
     for(let i = endYear; i > startYear - 1; i--){
         let currYear = document.createElement("option");
         currYear.value = `${i}`;
@@ -213,22 +217,39 @@ var granimInstance = new Granim({
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
         //Reinitialize make, model, and engine.
-        drawCarMake(carYear);
+        console.log(carYear)
+        if(carYear){
+            drawCarMake(carYear);
+        } else {
+            initializeOptions(getCarYear)
+            initializeYears(getCarYear)
+            initializeOptions(getCarMake)
+        }
         initializeOptions(getCarModel);
         initializeOptions(getCarEngine);
+
     })
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
-        drawCarModel(carYear, carMake);
+        if (carMake){
+            drawCarModel(carYear, carMake);
+        }
         initializeOptions(getCarEngine);
+
     })
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
-        drawCarEngine(carYear, carMake, carModel);
+        if (carModel){
+            drawCarEngine(carYear, carMake, carModel);
+        }
+
     })
     getCarEngine.addEventListener("change", (event) => {
         carEngine = event.target.value;
-        getMPG(carEngine)
+        if(carEngine){
+            getMPG(carEngine)
+        }
+
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
