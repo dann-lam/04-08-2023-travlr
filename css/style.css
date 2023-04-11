@@ -1,10 +1,49 @@
+*{
+    background-color: #eee7df;
+}
+
+
+
 div .col {
     border: 1px solid black;
     border-radius: 5%;
     padding: 20px;
 }
 
+div .top{
+background-color: #4d8581;
+border: none;
+}
+
 #routing-image {
     width: 500px;
     height: 500px;
+}
+
+header{
+    background-color: #4d8581;
+    border: 5px solid #b0988e;
+    border-radius: 0%;
+    margin: 0;
+    padding: 0;
+}
+
+#travlr-logo{
+    width: 250px;
+    height: 250px;
+    background-color: #4d8581;
+    margin-top: 40px;
+}
+
+#travlr-text{
+    background-color: #4d8581;
+    color: #fce4ec;
+    border: none;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    text-align: center;
+    font-size: 100px;
+}
+
+#location-routing {
+    border: 10px solid green;
 }
