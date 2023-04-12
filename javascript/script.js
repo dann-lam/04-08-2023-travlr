@@ -52,15 +52,30 @@ let getRouteInfo = (location1, location2) => {
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
             travelDistance = data.resourceSets[0].resources[0].travelDistance;
             travelDistance = travelDistance.toFixed(2);
-            console.log(travelDuration);
-            console.log(travelDurationTraffic);
-            console.log(travelDistance);
             return;
         })
 
 }
-
-getRouteInfo(location1, location2)
+let drawMap = () => {
+    let url = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wayPoint.0=${location1};64;1&wayPoint.1=${location2};66;2&mapSize=1000,1000&key=${apiKey}`;
+    fetch(url, {})
+    .then(function (response) {
+        if (response.ok){
+            promise = response.json();
+            return promise;
+        } else {
+            console.log(response);
+        }
+    })
+    .then(function (data){
+        travelDuration = data.resourceSets[0].resources[0].travelDuration;
+        travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
+        travelDistance = data.resourceSets[0].resources[0].travelDistance;
+        travelDistance = travelDistance.toFixed(2);
+        return;
+    })
+}
+// getRouteInfo(location1, location2)
 
 
 //Initialize variables that we can use for other functions
