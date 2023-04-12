@@ -25,12 +25,12 @@ var granimInstance = new Granim({
     direction: 'top-bottom',
     isPausedWhenNotInView: true,
     
-    // image : {
-    //     source: 'img/cracked-ground-opt1.jpg',
-    //     position: ['center', 'center'],
-    //     stretchMode: ['stretch', 'stretch'],
-    //     blendingMode: 'multiply',
-    // },
+     image : {
+         source: 'img/cracked-ground-opt1.jpg',
+         position: ['center', 'center'],
+         stretchMode: ['stretch', 'stretch'],
+         blendingMode: 'multiply',
+     },
     states : {
         "default-state": {
             gradients: [

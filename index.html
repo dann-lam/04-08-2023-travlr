@@ -24,9 +24,9 @@
          </header>
     <!-- Victoria's Section -->
         <div class="row ">
-            <div class="col s3">
+            <div class="col s12 m12 l3">
             <section id="location-routing" class="z-depth-5">
-                <div>
+                <div class="card-panel">
                     <form id="location-form">
                         <label for="start-location"></label>
                         <input id="start-location" type="text" placeholder="Start Location"
@@ -36,32 +36,44 @@
                     </form>
                 </div>
                 <div>
-                    <label for="avoid-tolls-box">Avoid Tolls</label>
-                    <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
-                    <label for="get-route"></label>
-                    <input id="get-route" type="button" placeholder="Get Route" id="get-route-button"
+                    <form id="submissions" action="#" class="row">
+                        <label for="avoid-tolls-box">
+                            <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
+                            <span>Avoid Tolls</span>
+                        </label>
+                        <label for="get-route">
+                        <input id="get-route" type="button" placeholder="Get Route"
                             value="Get Route">
-                </div>
+                        </label>
+                    </form>
+            </div>
             </section>
                 <hr>
-            <section id="gas-calculation">
+                
+            <section id="gas-calculation" class="column">
+                <div class="card-panel">
                 <form id="car-info">
                         <!--Daniel's Section-->
                     <label for="get-car-year">Get Car Year</label>
                     <select id="get-car-year"></select>
+                    <br>
                     <label for="get-car-make">Get Car Make</label>
                     <select id="get-car-make"></select>
+                    <br>
                     <label for="get-car-model">Get Car model</label>
                     <select id="get-car-model"></select>
+                    <br>
                     <label for="get-car-engine">Get Car Engine</label>
                     <select id="get-car-engine"></select>
                     <p id="get-average-mpg">Your MPG: <span id="gas-mpg-output"></span></p>
                         <!--Daniel's Section-->
-                </form>
+                    </form>
+                </div>
             </section>
+                    
             </div>
         <section class="col s9">
-            <img id="routing-image">
+            <img id="routing-image" src="">
         </section>
         </div>
         <div class="row">

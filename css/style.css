@@ -1,36 +1,30 @@
+* {
+color: #4d8581;
+}
+
+
 body{
     width: 100%;
     height: 100%;
 }
 
-    #granim-wrapper {
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -3;
-    }
-    .content-wrapper{
-        position: relative;
-    }
 
 
+ #granim-canvas {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -3;
+ }
+.content-wrapper{
+    position: relative;
+}
 
-
-/* div .col {
-    border: 1px solid black;
-    border-radius: 5%;
-    padding: 20px;
-} */
-
-/* div .top{
-background-color: #4d8581;
-border: none;
-} */
 
 #routing-image {
     margin-left: 500px;
@@ -62,9 +56,23 @@ border: none;
     /* font-size: 100px; 
 } */
 
+.card-panel {
+    background-color: #eee7df;
+}
+
 #location-routing {
     border: 10px solid #4d8581;
     background: #b0988e;
+}
+
+#submissions{
+    margin-left: 50px;
+}
+
+#get-route{
+    margin-left: 40px;
+    width: 100px;
+    height: 30px;
 }
 
 #gas-calculation{
@@ -78,7 +86,8 @@ border: none;
 
 
 #budget-information{
-    border: 5px solid #4d8581;
+    margin-top: 20px;
+    border: 10px solid #4d8581;
     background-color: #b0988e;
 }
 
