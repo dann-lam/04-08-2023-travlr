@@ -7,6 +7,7 @@ let getCarModel = document.getElementById("get-car-model");
 let getCarEngine = document.getElementById("get-car-engine");
 let carInfo = document.getElementById("car-info");
 let mpgInfo = document.getElementById("get-average-mpg")
+let averageMPGCost = document.getElementById("trip-info-average-mpg");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -23,9 +24,11 @@ let carMake;
 let carModel;
 let carEngine;
 let carMPG;
+let gasPrice;
 //Initialize options for years.
 let init = () => {
     initializeOptions();
+    getGasPrice();
 }
 
 //Handles drawing of list items.
@@ -66,11 +69,14 @@ let modularFetch = (year, make, model) => {
     let mode;
     let type;
     let baseurl = `https://www.fueleconomy.gov/ws/rest`
+    if (year == "gas"){
+        mode = "/fuelprices"
+        type = "gas"
     //If length is greater than year, it's not a year, it's a car ID.
-    if (year.length >= 5){
+    } else if (year.length >= 5){
         mode = `/ympg/shared/ympgVehicle/${year}`
         //Set to false for a condition in fetch results.
-        type = false;
+        type = "mpg";
         //If all three were input, it wants the engine
         } else if (year && make && model) {
             mode = `/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
@@ -110,16 +116,23 @@ let fetchResult = (url, type) => {
 
     })
     .then(function (data){
-        //The responses are consistently inside of .menuItem
-        if(data.menuItem){
+        if(data.regular && type == "gas"){
+
+            gasPrice = data.regular
+            console.log(gasPrice);
+            return;
+        //The responses are consistently inside of .menuItem for car-items
+        } else if(data.menuItem){
             items = data.menuItem
             return drawOptions(items, type);
-        } else if (data.avgMpg && type == false){
             //Condition for MPGs, stores MPG here.
-            carMPG = data.avgMpg;
-            mpgInfo.innerHTML = `MPG for ${carModel}: ${data.avgMpg}`;
+        } else if (data.avgMpg && type == "mpg"){
+            carMPG = parseFloat(data.avgMpg).toFixed(2);
+            let price = (gasPrice / carMPG).toFixed(2)
+            return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG} cost per mile is $${price}.`;
         } else {
             //Condition should not be met, but it *COULD* be.
+            console.log("What did you do nooooowww");
             mpgInfo.innerHTML = "Uhhh... there's something wrong."
         }
 
@@ -130,6 +143,11 @@ let fetchResult = (url, type) => {
         mpgInfo.innerHTML = `Could not find MPG for ${carModel}, some engines don't have MPG listed in the database. Try a 2012 Honda Civic for a result.`
     })
     ;
+}
+
+let getGasPrice = () => {
+    //Get the price of gas.
+    modularFetch("gas");
 }
 
 let initializeYears = () => {
