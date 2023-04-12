@@ -12,6 +12,7 @@ let getCarEngine = document.getElementById("get-car-engine");
 let carInfo = document.getElementById("car-info");
 let mpgInfo = document.getElementById("get-average-mpg")
 let averageMPGCost = document.getElementById("trip-info-average-mpg");
+let checkBox = document.getElementById("avoid-tolls-box");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -29,14 +30,13 @@ let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
-let getRouteInfo = (location1, location2, tolls) => {
+let getRouteInfo = (location1, location2) => {
     let avoid;
-    if(tolls){
+    if(checkBox.checked){
         avoid = "tolls"
     } else {
         avoid = "";
     }
-
     let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1}&wayPoint.2=${location2}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
@@ -48,17 +48,19 @@ let getRouteInfo = (location1, location2, tolls) => {
             }
         })
         .then(function (data){
-
             travelDuration = data.resourceSets[0].resources[0].travelDuration;
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
             travelDistance = data.resourceSets[0].resources[0].travelDistance;
-            console.log(travelDuration); //599
-            console.log(travelDistance); //3.44
+            travelDistance = travelDistance.toFixed(2);
+            console.log(travelDuration);
+            console.log(travelDurationTraffic);
+            console.log(travelDistance);
+            return;
         })
 
 }
 
-getRouteInfo(location1, location2, true)
+getRouteInfo(location1, location2)
 
 
 //Initialize variables that we can use for other functions
@@ -163,7 +165,6 @@ let fetchResult = (url, type) => {
         if(data.regular && type == "gas"){
 
             gasPrice = data.regular
-            console.log(gasPrice);
             return;
         //The responses are consistently inside of .menuItem for car-items
         } else if(data.menuItem){
