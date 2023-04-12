@@ -41,9 +41,6 @@ let drawOptions = (items, list) => {
     //Create a button,
     //append it to the list
     //redraw the list
-
-    //I need to have a way to detecting if there is only a singular object in "items"
-
     if (items.text){
         let currItem = items.text
         let currVal = items.value
@@ -64,9 +61,9 @@ let drawOptions = (items, list) => {
 
 }
 
+
 let getMPG = (val) => {
     let url = `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${val}`
-    console.log(val);
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
@@ -79,10 +76,29 @@ let getMPG = (val) => {
     });
 }
 
+let modularDraw = (year, make, model) => {
+    let mode;
+    let type;
+    let baseurl = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/`
+    if (year && make && model) {
+        mode = `options?year=${year}&make=${make}&model=${model}`
+        type = getCarEngine
+    } else if (year && make && !model){
+        mode = `model?year=${year}&make=${make}`
+        type = getCarModel
+    } else if (year && !make && !model){
+        mode = `make?year=${year}`
+        type = getCarMake
+    } else {
+        return console.log("What do you even have what are you doing here??")
+    }
+    baseurl = baseurl + mode;
+    return fetchResult(baseurl, type)
 
-let drawCarEngine = (year, make, model) => {
-    let items;
-    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
+}
+
+let fetchResult = (url, type) => {
+
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
         promise = response.json();
@@ -94,37 +110,7 @@ let drawCarEngine = (year, make, model) => {
             console.log("Nothing found!")
             console.log(items);
         }
-        return drawOptions(items, getCarEngine);
-
-    });
-}
-let drawCarModel = (year, make) => {
-    let items;
-    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/model?year=${year}&make=${make}`
-    fetch(url, {headers: {accept: 'application/json',}})
-    .then(function (response) {
-        promise = response.json();
-        return promise;
-    })
-    .then(function (data){
-        items = data.menuItem
-        return drawOptions(items, getCarModel);
-    });
-}
-
-
-let drawCarMake = (year) => {
-    let items;
-    let url = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}`
-    fetch(url, {headers: {accept: 'application/json',}})
-    .then(function (response) {
-        promise = response.json();
-        return promise;
-    })
-    .then(function (data){
-        items = data.menuItem
-
-        drawOptions(items, getCarMake);
+        return drawOptions(items, type);
 
     });
 }
@@ -217,12 +203,9 @@ var granimInstance = new Granim({
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
         //Reinitialize make, model, and engine.
-        console.log(carYear)
         if(carYear){
-            drawCarMake(carYear);
+            modularDraw(carYear);
         } else {
-            initializeOptions(getCarYear)
-            initializeYears(getCarYear)
             initializeOptions(getCarMake)
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -232,7 +215,7 @@ var granimInstance = new Granim({
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
         if (carMake){
-            drawCarModel(carYear, carMake);
+            modularDraw(carYear, carMake);
         } else {
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -243,7 +226,7 @@ var granimInstance = new Granim({
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
         if (carModel){
-            drawCarEngine(carYear, carMake, carModel);
+            modularDraw(carYear, carMake, carModel);
         } else {
             initializeOptions(getCarEngine);
         }
