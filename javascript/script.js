@@ -15,17 +15,20 @@ let mpgInfo = document.getElementById("get-average-mpg")
 // ROY-FUNCTIONS
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
+
+//Initialize variables that we can use for other functions
 let siteInitialized = false;
 let carYear;
 let carMake;
 let carModel;
 let carEngine;
 let carMPG;
+//Initialize options for years.
 let init = () => {
-
     initializeOptions();
 }
 
+//Handles drawing of list items.
 let drawOptions = (items, list) => {
     //Empty the list
     list.innerHTML = '';
@@ -66,45 +69,67 @@ let modularFetch = (year, make, model) => {
     //If length is greater than year, it's not a year, it's a car ID.
     if (year.length >= 5){
         mode = `/ympg/shared/ympgVehicle/${year}`
+        //Set to false for a condition in fetch results.
         type = false;
+        //If all three were input, it wants the engine
         } else if (year && make && model) {
             mode = `/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
             type = getCarEngine
+        //If two were input, it wants the model
         } else if (year && make && !model){
             mode = `/vehicle/menu/model?year=${year}&make=${make}`
             type = getCarModel
+        //If 1, wants model
         } else if (year && !make && !model && year.length == 4){
             mode = `/vehicle/menu/make?year=${year}`
             type = getCarMake
         } else {
+            //Good luck fella
             return console.log(`Oh god what did you do now? I hit ${type} and ${mode}`)
         }
+        //string append the query result to the base url.
         baseurl = baseurl + mode;
 
         return fetchResult(baseurl, type)
 
 
 }
-
+//takes in the url and ID variable stored as type
 let fetchResult = (url, type) => {
-
+    //header to accept JSONs instead of XMLs
     fetch(url, {headers: {accept: 'application/json',}})
     .then(function (response) {
-        promise = response.json();
-        return promise;
+        //checks if it's okay, JSONifies the response object.
+        if (response.ok){
+            promise = response.json();
+            return promise;
+        } else {
+            console.log(response);
+        }
+
+
     })
     .then(function (data){
-
+        //The responses are consistently inside of .menuItem
         if(data.menuItem){
             items = data.menuItem
             return drawOptions(items, type);
         } else if (data.avgMpg && type == false){
-            mpgInfo.innerHTML = data.avgMpg;
+            //Condition for MPGs, stores MPG here.
+            carMPG = data.avgMpg;
+            mpgInfo.innerHTML = `MPG for ${carModel}: ${data.avgMpg}`;
         } else {
-            mpgInfo.innerHTML = "Could not retrieve MPG!"
+            //Condition should not be met, but it *COULD* be.
+            mpgInfo.innerHTML = "Uhhh... there's something wrong."
         }
 
-    });
+    })
+    .catch(err => {
+        console.log("It was probably the MPG Retrieval.")
+        console.log(err)
+        mpgInfo.innerHTML = `Could not find MPG for ${carModel}, some engines don't have MPG listed in the database. Try a 2012 Honda Civic for a result.`
+    })
+    ;
 }
 
 let initializeYears = () => {
@@ -129,11 +154,13 @@ let initializeYears = () => {
     }
 
 }
+
 let initializeOptions = (redrawMe) => {
     //condition hit if  user selects an option above the chain.
     //we reset the select options below the re-selected option
 
     if(redrawMe){
+        //Reset the list to just Select option.
         redrawMe.innerHTML = '';
         let startOption = document.createElement("option");
         startOption.value = ""
@@ -191,13 +218,16 @@ var granimInstance = new Granim({
 // ROY-EVENT-LISTENERS
 // ROY-EVENT-LISTENERS
 // DANIEL-EVENT-LISTENERS
+
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
-        //Reinitialize make, model, and engine.
+        //If the user selects "select", then reset the list.
+        //This is done to protect users from making unintended combinations.
         if(carYear){
             modularFetch(carYear);
         } else {
+
             initializeOptions(getCarMake)
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -206,6 +236,8 @@ var granimInstance = new Granim({
     })
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
+        //If the user selects "select", then reset the list.
+        //This is done to protect users from making unintended combinations.
         if (carMake){
             modularFetch(carYear, carMake);
         } else {
@@ -217,6 +249,8 @@ var granimInstance = new Granim({
     })
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
+        //If the user selects "select", then reset the list.
+        //This is done to protect users from making unintended combinations.
         if (carModel){
             modularFetch(carYear, carMake, carModel);
         } else {
