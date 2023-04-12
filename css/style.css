@@ -1,9 +1,9 @@
-/* body{
-    border: 3px solid red;
-    background-color: #5d7599;
-} */
+body{
+    width: 100%;
+    height: 100%;
+}
 
-    .main {
+    #granim-wrapper {
         position: absolute;
         display: block;
         width: 100%;
@@ -14,7 +14,7 @@
         left: 0;
         z-index: -3;
     }
-    .main-text{
+    .content-wrapper{
         position: relative;
     }
 

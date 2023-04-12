@@ -21,7 +21,7 @@
 //     ctx.drawImage(img, 0, 0, 300, 150);
 // }
 var granimInstance = new Granim({
-    element: '.main',
+    element: '#granim-canvas',
     direction: 'top-bottom',
     isPausedWhenNotInView: true,
     
