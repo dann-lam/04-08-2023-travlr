@@ -24,14 +24,54 @@ let checkBox = document.getElementById("avoid-tolls-box");
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
 //Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
-let location1 = "47.610,-122.107"
-let location2 = "47.610,-122.157"
+let userTypingTimer;
+let userTypingTimer2;
+let doneTypingTimer = 1750;
+let location1;
+let location2;
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
+
+
+let getLocation = (inputText, location) => {
+    if(!inputText){
+        console.log("Please type a location in!")
+        return;
+    }
+    //Encode it, from a normal string to a encoded one for insertion.
+    inputText = encodeURIComponent(inputText);
+    //exampleString: 21%20Jump%20St
+    let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${inputText}&key=${apiKey}`
+        fetch(baseUrl, {})
+        .then(function (response) {
+            if (response.ok){
+                promise = response.json();
+                return promise;
+            } else {
+                console.log(response);
+            }
+        })
+        .then(function (data){
+            let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
+            let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
+            location = `${lat}, ${lon}`
+            return;
+        })
+
+}
+
+
+
+//get Route information that we'll use to calculate distance.
 let getRouteInfo = (location1, location2) => {
+    if(!location1 || !location2){
+        console.log("Must have both locations!");
+        return;
+    }
     let avoid;
+    //Checks to see if the box is checked or not.
     if(checkBox.checked){
         avoid = "tolls"
     } else {
@@ -56,27 +96,26 @@ let getRouteInfo = (location1, location2) => {
         })
 
 }
+//Get the image based on our locations.
 let drawMap = () => {
     let url = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wayPoint.0=${location1};64;1&wayPoint.1=${location2};66;2&mapSize=1000,1000&key=${apiKey}`;
     fetch(url, {})
     .then(function (response) {
         if (response.ok){
-            promise = response.json();
-            return promise;
+            //the response has to be blobbed - turns into raw data essentially.
+            return response.blob()
         } else {
             console.log(response);
         }
     })
-    .then(function (data){
-        travelDuration = data.resourceSets[0].resources[0].travelDuration;
-        travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
-        travelDistance = data.resourceSets[0].resources[0].travelDistance;
-        travelDistance = travelDistance.toFixed(2);
+    .then(function (image){
+        //set the source of routing image and create a url object out of it
+        routingImage.src = URL.createObjectURL(image);
         return;
     })
 }
 // getRouteInfo(location1, location2)
-
+// drawMap(location1, location2);
 
 //Initialize variables that we can use for other functions
 let siteInitialized = false;
@@ -301,6 +340,29 @@ var granimInstance = new Granim({
 // ROY-EVENT-LISTENERS
 // DANIEL-EVENT-LISTENERS
 
+    getStartLocation.addEventListener('keyup', (event) => {
+        event.stopPropagation;
+        clearTimeout(userTypingTimer);
+        //Inside an anonymous function because I want to pass parameters
+        //into the function, if I don't, it's immediately used.
+        userTypingTimer = setTimeout(function(){getLocation(getStartLocation.value, location1)}, doneTypingTimer);
+    })
+
+    getStartLocation.addEventListener('keydown', (event) => {
+        clearTimeout(userTypingTimer);
+    })
+
+    getEndLocation.addEventListener('keyup', (event) => {
+        event.stopPropagation;
+        clearTimeout(userTypingTimer2);
+        //Inside an anonymous function because I want to pass parameters
+        //into the function, if I don't, it's immediately used.
+        userTypingTimer2 = setTimeout(function(){getLocation(getEndLocation.value, location2)}, doneTypingTimer);
+    })
+
+    getEndLocation.addEventListener('keydown', (event) => {
+        clearTimeout(userTypingTimer2);
+    })
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
@@ -347,6 +409,14 @@ var granimInstance = new Granim({
             modularFetch(carEngine)
         }
 
+    })
+
+    getRouteButton.addEventListener("click", (event) => {
+        event.preventDefault;
+        getRouteInfo(location1, location2);
+        console.log(location1)
+        console.log(location2)
+        drawMap();
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
