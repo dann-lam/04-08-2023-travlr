@@ -23,6 +23,44 @@ let averageMPGCost = document.getElementById("trip-info-average-mpg");
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
 //Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
+let location1 = "47.610,-122.107"
+let location2 = "47.610,-122.157"
+let travelDuration;
+let travelDistance;
+let travelDurationTraffic;
+let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
+let getRouteInfo = (location1, location2, tolls) => {
+    let avoid;
+    if(tolls){
+        avoid = "tolls"
+    } else {
+        avoid = "";
+    }
+
+    let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1}&wayPoint.2=${location2}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
+        fetch(baseUrl, {})
+        .then(function (response) {
+            if (response.ok){
+                promise = response.json();
+                return promise;
+            } else {
+                console.log(response);
+            }
+        })
+        .then(function (data){
+
+            travelDuration = data.resourceSets[0].resources[0].travelDuration;
+            travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
+            travelDistance = data.resourceSets[0].resources[0].travelDistance;
+            console.log(travelDuration); //599
+            console.log(travelDistance); //3.44
+        })
+
+}
+
+getRouteInfo(location1, location2, true)
+
+
 //Initialize variables that we can use for other functions
 let siteInitialized = false;
 let carYear;
