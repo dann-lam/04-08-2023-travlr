@@ -26,9 +26,9 @@ let checkBox = document.getElementById("avoid-tolls-box");
 //Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
 let userTypingTimer;
 let userTypingTimer2;
-let doneTypingTimer = 1750;
-let location1;
-let location2;
+let doneTypingTimer = 1250;
+let location1 = "location1"
+let location2 = "location2"
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
@@ -56,8 +56,13 @@ let getLocation = (inputText, location) => {
         .then(function (data){
             let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
             let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
-            location = `${lat}, ${lon}`
-            return;
+            if(location == "location1"){
+                location1 = `${lat}, ${lon}`
+            } else if (location == "location2") {
+                location2 = `${lat}, ${lon}`
+            }
+
+            return
         })
 
 }
@@ -414,8 +419,6 @@ var granimInstance = new Granim({
     getRouteButton.addEventListener("click", (event) => {
         event.preventDefault;
         getRouteInfo(location1, location2);
-        console.log(location1)
-        console.log(location2)
         drawMap();
     })
 // DANIEL-EVENT-LISTENERS
