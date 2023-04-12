@@ -27,10 +27,16 @@ body{
 
 
 #routing-image {
-    margin-left: 500px;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 500px;
+    border: 10px solid #4d8581;
 }
+
+/*.route-img {
+    width: 100%;
+    height: 100%;
+    border: 10px solid #4d8581;
+} */
 
 /* header{
     background-color: #4d8581;
