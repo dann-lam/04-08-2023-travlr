@@ -1,4 +1,8 @@
 // ROY-GET-ELEMENT
+let getStartLocation = document.getElementById("start-location");
+let getEndLocation = document.getElementById("end-location");
+let getRouteButton = document.getElementById("get-route");
+let routingImage = document.getElementById("routing-image");
 // ROY-GET-ELEMENT
 // DANIEL-GET-ELEMENT
 let getCarYear = document.getElementById("get-car-year");
@@ -14,9 +18,11 @@ let averageMPGCost = document.getElementById("trip-info-average-mpg");
 
 
 // ROY-FUNCTIONS
+//Fetch data from query URL based on location which returns lat and lons
+
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
-
+//Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
 //Initialize variables that we can use for other functions
 let siteInitialized = false;
 let carYear;
@@ -202,6 +208,7 @@ let initializeOptions = (redrawMe) => {
 //Initializes website
 init();
 // DANIEL-FUNCTIONS
+
 // VICTORIA-FUNCTIONS!
 // VICTORIA-FUNCTIONS
 
@@ -234,6 +241,9 @@ var granimInstance = new Granim({
 });
 
 // ROY-EVENT-LISTENERS
+//Event listener for getting lat long on entering location 1 + 2
+
+//"buttonup" event listener
 // ROY-EVENT-LISTENERS
 // DANIEL-EVENT-LISTENERS
 
