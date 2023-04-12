@@ -1,5 +1,3 @@
-
-
 // ROY-GET-ELEMENT
 // ROY-GET-ELEMENT
 // DANIEL-GET-ELEMENT
@@ -61,39 +59,30 @@ let drawOptions = (items, list) => {
 
 }
 
-
-let getMPG = (val) => {
-    let url = `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${val}`
-    fetch(url, {headers: {accept: 'application/json',}})
-    .then(function (response) {
-        promise = response.json();
-        return promise;
-    })
-    .then(function (data){
-        console.log(data);
-        mpgInfo.innerHTML = (data.avgMpg);
-        return;
-    });
-}
-
-let modularDraw = (year, make, model) => {
+let modularFetch = (year, make, model) => {
     let mode;
     let type;
-    let baseurl = `https://www.fueleconomy.gov/ws/rest/vehicle/menu/`
-    if (year && make && model) {
-        mode = `options?year=${year}&make=${make}&model=${model}`
-        type = getCarEngine
-    } else if (year && make && !model){
-        mode = `model?year=${year}&make=${make}`
-        type = getCarModel
-    } else if (year && !make && !model){
-        mode = `make?year=${year}`
-        type = getCarMake
-    } else {
-        return console.log("What do you even have what are you doing here??")
-    }
-    baseurl = baseurl + mode;
-    return fetchResult(baseurl, type)
+    let baseurl = `https://www.fueleconomy.gov/ws/rest`
+    //If length is greater than year, it's not a year, it's a car ID.
+    if (year.length >= 5){
+        mode = `/ympg/shared/ympgVehicle/${year}`
+        type = false;
+        } else if (year && make && model) {
+            mode = `/vehicle/menu/options?year=${year}&make=${make}&model=${model}`
+            type = getCarEngine
+        } else if (year && make && !model){
+            mode = `/vehicle/menu/model?year=${year}&make=${make}`
+            type = getCarModel
+        } else if (year && !make && !model && year.length == 4){
+            mode = `/vehicle/menu/make?year=${year}`
+            type = getCarMake
+        } else {
+            return console.log(`Oh god what did you do now? I hit ${type} and ${mode}`)
+        }
+        baseurl = baseurl + mode;
+
+        return fetchResult(baseurl, type)
+
 
 }
 
@@ -105,12 +94,15 @@ let fetchResult = (url, type) => {
         return promise;
     })
     .then(function (data){
-        items = data.menuItem
-        if(!items){
-            console.log("Nothing found!")
-            console.log(items);
+
+        if(data.menuItem){
+            items = data.menuItem
+            return drawOptions(items, type);
+        } else if (data.avgMpg && type == false){
+            mpgInfo.innerHTML = data.avgMpg;
+        } else {
+            mpgInfo.innerHTML = "Could not retrieve MPG!"
         }
-        return drawOptions(items, type);
 
     });
 }
@@ -204,7 +196,7 @@ var granimInstance = new Granim({
         carYear = event.target.value;
         //Reinitialize make, model, and engine.
         if(carYear){
-            modularDraw(carYear);
+            modularFetch(carYear);
         } else {
             initializeOptions(getCarMake)
             initializeOptions(getCarModel);
@@ -215,7 +207,7 @@ var granimInstance = new Granim({
     getCarMake.addEventListener("change", (event) => {
         carMake = event.target.value;
         if (carMake){
-            modularDraw(carYear, carMake);
+            modularFetch(carYear, carMake);
         } else {
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -226,7 +218,7 @@ var granimInstance = new Granim({
     getCarModel.addEventListener("change", (event) => {
         carModel = event.target.value;
         if (carModel){
-            modularDraw(carYear, carMake, carModel);
+            modularFetch(carYear, carMake, carModel);
         } else {
             initializeOptions(getCarEngine);
         }
@@ -234,8 +226,9 @@ var granimInstance = new Granim({
     })
     getCarEngine.addEventListener("change", (event) => {
         carEngine = event.target.value;
+
         if(carEngine){
-            getMPG(carEngine)
+            modularFetch(carEngine)
         }
 
     })
