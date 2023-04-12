@@ -13,3 +13,18 @@
 .main-text{
     position: relative;
 }
+/*Roy-Bing-Map-Style*/
+.directionsContainer{
+    width:380px;
+    height:100%;
+    overflow-y:auto;
+    float:left;
+}
+
+.routing-imaging{
+    position:relative;
+    width:calc(100% - 380px);
+    height:100%;
+    float:left;
+}
+/*Roy-Bing-Map-Style*/

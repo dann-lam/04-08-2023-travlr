@@ -1,3 +1,58 @@
+
+// ROY-GET-ELEMENT
+var bingAPIkey = "56dbff74c0ac3fba85a5a517abf01ddb";
+var searchBtn = document.getElementById('search-btn');
+var wayPoint1 = document.getElementById('start-location');
+var wayPoint2 = document.getElementById('end-location');
+var scriptBingRoute = document.getElementById('bing-route');
+var routeImg = document.getElementById('routing-image')
+// ROY-GET-ELEMENT
+// DANIEL-GET-ELEMENT
+// DANIEL-GET-ELEMENT
+// VICTORIA-GET-ELEMENT
+// VICTORIA-GET-ELEMENT
+
+// ROY-FUNCTIONS
+// Created variable sessionKey to hold the Bing API Key
+var sessionKey;  
+// The funtion will store an use the API key for the duration of the session, session key is non-billable
+map.getCredentials(function (c) {  
+    sessionKey = c;  
+});
+
+// Dynamicly load the Bing Maps Key and Script
+(async () => {
+    let script = document.createElement("script");
+    script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingAPIkey}`);
+    document.body.appendChild(script);
+})();
+
+// Declared map and directionsManager variable
+var map;
+var directionsManager;
+// Function will produce a map with the user's desired route 
+function GetMap(){
+    // Displays map
+    map = new Microsoft.Maps.Map('routeImg', {});
+
+    //Load the directions module.
+    Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+        //Create an instance of the directions manager.
+        directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+        //Specify where to display the route instructions.
+        directionsManager.setRenderOptions({ itineraryContainer: 'location-routing' });
+
+        //Specify the where to display the input panel
+        directionsManager.showInputPanel('direction-form');
+    });
+}
+// ROY-FUNCTIONS
+// DANIEL-FUNCTIONS
+// DANIEL-FUNCTIONS
+// VICTORIA-FUNCTIONS!
+// VICTORIA-FUNCTIONS
+
 // const ctx = canvas.getContext("2d");
 // let img = new Image();
 // img.src = "img/road-project-pic.jpg";
@@ -26,15 +81,9 @@ var granimInstance = new Granim({
   
 });
 
-
-//GOAL: Dynamically add years 2024 to 2007 to get-car-year
-    //Make a function that dynamically adds car years to the
-    //id-get-car-year select
-    //creates an option with a value year starting from 2024
-    //descds to 2007
-    //Initialize years
-    //Handler for this select
-    //Once the year is selected, perform our queries.
-    //Once (carMake) populate the select with car make array from api
-    //We have to clear/reset the values of selections if som
-    //We could make a conditional check on the other fields if there is a match
+// ROY-EVENT-LISTENERS
+// ROY-EVENT-LISTENERS
+// DANIEL-EVENT-LISTENERS
+// DANIEL-EVENT-LISTENERS
+// VICTORIA-EVENT-LISTENERS
+// VICTORIA-EVENT-LISTENERS
