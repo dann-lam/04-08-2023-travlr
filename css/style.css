@@ -28,7 +28,11 @@ body{
 
 #routing-image {
     width: 100%;
+    min-width: 500px;
+    max-width: 1125px;
     height: 500px;
+    min-height: 500px;
+    max-height: 700px ;
     border: 10px solid #4d8581;
 }
 
