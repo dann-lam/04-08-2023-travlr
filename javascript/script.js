@@ -26,8 +26,10 @@ var granimInstance = new Granim({
     isPausedWhenNotInView: true,
     
     image : {
-        source: 'img/road-project-pic.jpg',
-        blendingMode: 'multiply'
+        source: 'img/cracked-ground-opt1.jpg',
+        position: ['center', 'center'],
+        stretchMode: ['stretch', 'stretch'],
+        blendingMode: 'multiply',
     },
     states : {
         "default-state": {

@@ -1,6 +1,21 @@
-*{
-    background-color: #eee7df;
-}
+/* *{
+    background-repeat: repeat;
+} */
+
+    .main {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -3;
+    }
+    .main-text{
+        position: relative;
+    }
 
 
 
@@ -10,54 +25,74 @@
     padding: 20px;
 } */
 
-div .top{
+/* div .top{
 background-color: #4d8581;
 border: none;
-}
+} */
 
 #routing-image {
-    width: 500px;
-    height: 500px;
+    margin-left: 500px;
+    width: 100px;
+    height: 100px;
 }
 
-header{
+/* header{
     background-color: #4d8581;
     border: 5px solid #b0988e;
     border-radius: 0%;
     margin: 0;
     padding: 0;
-}
+} */
 
 #travlr-logo{
     width: 250px;
     height: 250px;
     background-color: #4d8581;
-    margin-top: 40px;
+    border: 5px solid #b0988e;
+    /* margin-top: 0px; */
+    /* margin-left: 10px; */
+    /* padding: 0; */
 }
 
-#travlr-text{
+/* #travlr-text{
     background-color: #4d8581;
     color: #fce4ec;
     border: none;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
     text-align: center;
-    font-size: 100px;
-}
-.main {
-    position: absolute;
-    display: block;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -3;
-}
+    /* font-size: 100px; 
+} */
 
 #location-routing {
-    border: 10px solid green;
+    border: 10px solid #4d8581;
+    background: #b0988e;
 }
-.main-text{
-    position: relative;
+
+#gas-calculation{
+    border: 10px solid #4d8581;
+    background-color: #b0988e;
+}
+
+#gas-calculation label{
+    color: black;
+}
+
+#budget-information{
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 5px solid #4d8581;
+    background-color: #b0988e;
+}
+
+h2{
+    font-size: large;
+}
+
+/* ul #trip-info-box{
+    border: 3px solid black;
+    background-color: blue;
+} */
+
+#budget-calculation-container{
+border: 3px solid black
 }
