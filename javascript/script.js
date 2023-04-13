@@ -477,7 +477,7 @@ var granimInstance = new Granim({
         event.preventDefault;
         let calc = (travelDistance * price)
         userOutput.innerHTML = `${calc.toFixed(2)}`
-        userLeftOver.innerHTML = `${(userBudget.value - calc.toFixed(2)).toFixed(2) - userSnacks.value}`
+        userLeftOver.innerHTML = `${(userBudget.value - calc.toFixed(2) - userSnacks.value).toFixed(2)}`
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
