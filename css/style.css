@@ -102,6 +102,7 @@ body {
     margin-top: 20px;
     border: 10px solid #4d8581;
     background-color: #b0988e;
+    width: auto;
 }
 
 h2 {
@@ -109,7 +110,8 @@ h2 {
 }
 
 #budget-calculation-container {
-    border: 3px solid black
+    border: 3px solid black;
+    width: auto;
 }
 
 footer {
