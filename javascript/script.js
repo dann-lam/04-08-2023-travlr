@@ -381,7 +381,9 @@ var granimInstance = new Granim({
         //If the user selects "select", then reset the list.
         //This is done to protect users from making unintended combinations.
         if(carYear){
-            modularFetch(carYear);
+            modularFetch(carYear)
+            initializeOptions(getCarModel);
+            initializeOptions(getCarEngine);
         } else {
 
             initializeOptions(getCarMake)
@@ -395,7 +397,8 @@ var granimInstance = new Granim({
         //If the user selects "select", then reset the list.
         //This is done to protect users from making unintended combinations.
         if (carMake){
-            modularFetch(carYear, carMake);
+            modularFetch(carYear, carMake)
+            initializeOptions(getCarEngine);
         } else {
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
