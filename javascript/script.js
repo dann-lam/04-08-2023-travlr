@@ -24,9 +24,19 @@ let checkBox = document.getElementById("avoid-tolls-box");
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
 //Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
+//Initialize variables that we can use for other functions
+let siteInitialized = false;
+let carYear;
+let carMake;
+let carModel;
+let carEngine;
+let carMPG;
+let gasPrice;
+//Initialize options for years.
+
 let userTypingTimer;
 let userTypingTimer2;
-let doneTypingTimer = 500;
+let doneTypingTimer = 250;
 let location1 = "location1String"
 let location2 = "location2String"
 let travelDuration;
@@ -34,6 +44,12 @@ let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
 
+let init = () => {
+    initializeOptions();
+    getGasPrice();
+}
+
+//Function that encodes and assigns the input text to a location variable.
 let assignLocation = (inputText) => {
     if(!inputText){
         console.log("Nothing typed in.")
@@ -44,9 +60,8 @@ let assignLocation = (inputText) => {
     inputText = encodeURIComponent(inputText);
     return inputText;
 }
-
+//Lat Lon router, accepts a string name stored in location1 or location2.
 let getLocation = (location_input) => {
-
 
     let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
         fetch(baseUrl, {})
@@ -61,7 +76,7 @@ let getLocation = (location_input) => {
         .then(function (data){
             let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
             let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
-
+            //Need error handlers.
 
             location_input = `${lat}, ${lon}`
 
@@ -95,6 +110,7 @@ let getRouteInfo = (location1_input, location2_input) => {
                 console.log(response);
             }
         })
+        //grabs and assigns our wanted data.
         .then(function (data){
             travelDuration = data.resourceSets[0].resources[0].travelDuration;
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
@@ -125,19 +141,7 @@ let drawMap = () => {
 // getRouteInfo(location1, location2)
 // drawMap(location1, location2);
 
-//Initialize variables that we can use for other functions
-let siteInitialized = false;
-let carYear;
-let carMake;
-let carModel;
-let carEngine;
-let carMPG;
-let gasPrice;
-//Initialize options for years.
-let init = () => {
-    initializeOptions();
-    getGasPrice();
-}
+
 
 //Handles drawing of list items.
 let drawOptions = (items, list) => {
