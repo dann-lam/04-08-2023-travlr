@@ -83,14 +83,13 @@ let getLocation = (location_input) => {
             let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
             let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
             //Need error handlers.
-
+            //The location we fed into this is converted into a lat lon string E.G: "123,-123"
             location_input = `${lat}, ${lon}`
 
             return
         })
 
 }
-
 
 
 //get Route information that we'll use to calculate distance.
@@ -118,10 +117,15 @@ let getRouteInfo = (location1_input, location2_input) => {
         })
         //grabs and assigns our wanted data.
         .then(function (data){
+            //Digs through the returned data, and assigns the value to our global variables of travelDuration and travelDistance
             travelDuration = data.resourceSets[0].resources[0].travelDuration;
+
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
+
             travelDistance = data.resourceSets[0].resources[0].travelDistance;
             travelDistance = travelDistance.toFixed(2);
+            //Input our information onto the page.
+            //Travel duration returns only seconds, so we convert it to hours.
             tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
             return;
         })
@@ -153,6 +157,8 @@ let drawMap = () => {
 //Handles drawing of list items.
 let drawOptions = (items, list) => {
     //Empty the list
+    //Items is that big list of car thingies from the response
+    //list = getCarMake which is a Element on the HTML page.
     list.innerHTML = '';
     //Recreate start option
     let startOption = document.createElement("option");
@@ -186,6 +192,7 @@ let drawOptions = (items, list) => {
     }
 
 }
+// modularFetch("2345235")
 
 let modularFetch = (year, make, model) => {
     let mode;
@@ -238,6 +245,7 @@ let fetchResult = (url, type) => {
 
     })
     .then(function (data){
+        console.log(data)
         if(data.regular && type == "gas"){
 
             gasPrice = data.regular
@@ -248,6 +256,7 @@ let fetchResult = (url, type) => {
             return drawOptions(items, type);
             //Condition for MPGs, stores MPG here.
         } else if (data.avgMpg && type == "mpg"){
+            //computer sees data.avgMpg = "20.235235235235235"
             carMPG = parseFloat(data.avgMpg).toFixed(2);
 
             price = (gasPrice / carMPG).toFixed(2)
@@ -328,6 +337,7 @@ let initializeOptions = (redrawMe) => {
 }
 
 //Initializes website
+//Starts putting stuff on the site.
 let init = () => {
     initializeOptions();
     getGasPrice();
@@ -431,6 +441,7 @@ var granimInstance = new Granim({
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
+        //the value of select.value = "";
         //If the user selects "select", then reset the list.
         //This is done to protect users from making unintended combinations.
         if(carYear){
@@ -483,10 +494,16 @@ var granimInstance = new Granim({
 
     getRouteButton.addEventListener("click", (event) => {
         event.preventDefault;
+        //21%20%jumpst
         getLocation(location1);
+        //Get location takes in our converted string
+        //and reassigns lat lons to location that was input
         getLocation(location2);
+        //takes in both lat lons and retrieves distance and time for travel
         getRouteInfo(location1, location2);
+        //takes in lat lons, and retrieves a picture.
         drawMap();
+        //takes our distance and duration and reassigns it to our page.
         tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
 
 
