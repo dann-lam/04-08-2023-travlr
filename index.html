@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" href="./css/style.css" >
+    <link rel="stylesheet" href="./css/style.css">
 
     <title>travlr!</title>
 </head>
@@ -15,74 +15,74 @@
 
     </canvas>
     <div class="main-text">
-    <header>
-        <img id="travlr-logo">
-        <h1 id="travlr-text">travlr!</h1>
-    </header>
-    <section id="location-routing">
-        <div>
-            <form id="location-form">
-                <label for="start-location"></label>
-                <input id="start-location" type="text" placeholder="Start Location" id="location-form-start">
-                <label for="end-location"></label>
-                <input id="end-location" type="text" placeholder="End Location" id="location-form-end">
+        <header>
+            <img id="travlr-logo">
+            <h1 id="travlr-text">travlr!</h1>
+        </header>
+        <section id="location-routing">
+            <div>
+                <form id="location-form">
+                    <label for="start-location"></label>
+                    <input id="start-location" type="text" placeholder="Start Location">
+                    <label for="end-location"></label>
+                    <input id="end-location" type="text" placeholder="End Location">
+                </form>
+            </div>
+            <div>
+                <label for="avoid-tolls-box">Avoid Tolls</label>
+                <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
+                <label for="get-route"></label>
+                <input id="get-route" type="button" placeholder="Get Route" value="Get Route">
+            </div>
+        </section>
+        <section id="gas-calculation">
+            <form id="car-info">
+                <label for="get-car-year"></label>
+                <select id="get-car-year"></select>
+                <label for="get-car-make"></label>
+                <select id="get-car-make"></select>
+                <label for="get-car-model"></label>
+                <select id="get-car-model"></select>
+                <label for="get-car-engine"></label>
+                <select id="get-car-engine"></select>
+                <p id="get-average-mpg">
             </form>
-        </div>
-        <div>
-            <label for="avoid-tolls-box">Avoid Tolls</label>
-            <input id="avoid-tolls-box" type="checkbox" id="avoid-tolls-box">
-            <label for="get-route"></label>
-            <input id="get-route" type="button" placeholder="Get Route" id="get-route-button" value="Get Route">
-        </div>
-    </section>
-    <section id="gas-calculation">
-        <form id="car-info">
-            <label for="get-car-year"></label>
-            <select id="get-car-year"></select>
-            <label for="get-car-make"></label>
-            <select id="get-car-make"></select>
-            <label for="get-car-model"></label>
-            <select id="get-car-model"></select>
-            <label for="get-car-engine"></label>
-            <select id="get-car-engine"></select>
-            <p id="get-average-mpg">
-        </form>
-    </section>
-    <section>
-        <img id="routing-image">
-    </section>
-    <section id="budget-information">
-        <div id="trip-summary">
-            <h2>
-                Trip Summary
-            </h2>
-            <hr>
-            <ul id="trip-info-box">
-                <li id="trip-info-distance">
+        </section>
+        <section>
+            <img id="routing-image">
+        </section>
+        <section id="budget-information">
+            <div id="trip-summary">
+                <h2>
+                    Trip Summary
+                </h2>
+                <hr>
+                <ul id="trip-info-box">
+                    <li id="trip-info-distance">
 
-                </li>
-                <li id="trip-info-average-mpg">
+                    </li>
+                    <li id="trip-info-average-mpg">
 
-                </li>
-                <li id="trip-info-tolls-avoided">
+                    </li>
+                    <li id="trip-info-tolls-avoided">
 
-                </li>
-            </ul>
-        </div>
-        <div id="budget-calculation-container">
-            <form id="user-budget-input">
-                <label for="user-total-budget">
-                </label>
-                <input id="user-total-budget" type="number">
-                <label for="user-budget-snacks">
-                </label>
-                <input id="user-budget-snacks" type="number">
-            </form>
-            <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
-            <hr>
-            <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
-        </div>
-    </section>
+                    </li>
+                </ul>
+            </div>
+            <div id="budget-calculation-container">
+                <form id="user-budget-input">
+                    <label for="user-total-budget">
+                    </label>
+                    <input id="user-total-budget" type="number">
+                    <label for="user-budget-snacks">
+                    </label>
+                    <input id="user-budget-snacks" type="number">
+                </form>
+                <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
+                <hr>
+                <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
+            </div>
+        </section>
     </div>
     <!-- Get Route Information Section -->
     <!-- Gas Calculation Section -->
