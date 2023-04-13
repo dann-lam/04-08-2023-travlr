@@ -27,23 +27,28 @@ let checkBox = document.getElementById("avoid-tolls-box");
 let userTypingTimer;
 let userTypingTimer2;
 let doneTypingTimer = 1250;
-let location1 = "location1"
-let location2 = "location2"
+let location1 = "location1String"
+let location2 = "location2String"
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
 
-
-let getLocation = (inputText, location) => {
+let assignLocation = (inputText) => {
     if(!inputText){
-        console.log("Please type a location in!")
-        return;
+        console.log("Nothing typed in.")
+        return
     }
-    //Encode it, from a normal string to a encoded one for insertion.
-    inputText = encodeURIComponent(inputText);
+        //Encode it, from a normal string to a encoded one for insertion.
     //exampleString: 21%20Jump%20St
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${inputText}&key=${apiKey}`
+    inputText = encodeURIComponent(inputText);
+    return inputText;
+}
+
+let getLocation = (location_input) => {
+
+
+    let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
@@ -56,11 +61,9 @@ let getLocation = (inputText, location) => {
         .then(function (data){
             let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
             let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
-            if(location == "location1"){
-                location1 = `${lat}, ${lon}`
-            } else if (location == "location2") {
-                location2 = `${lat}, ${lon}`
-            }
+
+
+            location_input = `${lat}, ${lon}`
 
             return
         })
@@ -70,8 +73,8 @@ let getLocation = (inputText, location) => {
 
 
 //get Route information that we'll use to calculate distance.
-let getRouteInfo = (location1, location2) => {
-    if(!location1 || !location2){
+let getRouteInfo = (location1_input, location2_input) => {
+    if(!location1_input || !location2_input){
         console.log("Must have both locations!");
         return;
     }
@@ -82,7 +85,7 @@ let getRouteInfo = (location1, location2) => {
     } else {
         avoid = "";
     }
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1}&wayPoint.2=${location2}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
+    let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1_input}&wayPoint.2=${location2_input}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
@@ -350,7 +353,7 @@ var granimInstance = new Granim({
         clearTimeout(userTypingTimer);
         //Inside an anonymous function because I want to pass parameters
         //into the function, if I don't, it's immediately used.
-        userTypingTimer = setTimeout(function(){getLocation(getStartLocation.value, location1)}, doneTypingTimer);
+        userTypingTimer = setTimeout(function(){location1 = assignLocation(getStartLocation.value)}, doneTypingTimer);
     })
 
     getStartLocation.addEventListener('keydown', (event) => {
@@ -362,7 +365,7 @@ var granimInstance = new Granim({
         clearTimeout(userTypingTimer2);
         //Inside an anonymous function because I want to pass parameters
         //into the function, if I don't, it's immediately used.
-        userTypingTimer2 = setTimeout(function(){getLocation(getEndLocation.value, location2)}, doneTypingTimer);
+        userTypingTimer2 = setTimeout(function(){location2 = assignLocation(getEndLocation.value)}, doneTypingTimer);
     })
 
     getEndLocation.addEventListener('keydown', (event) => {
@@ -418,6 +421,8 @@ var granimInstance = new Granim({
 
     getRouteButton.addEventListener("click", (event) => {
         event.preventDefault;
+        getLocation(location1);
+        getLocation(location2);
         getRouteInfo(location1, location2);
         drawMap();
     })
