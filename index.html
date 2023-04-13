@@ -1,101 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" href="./css/style.css" >
+    <title>Directions Input Panel - Bing Maps Samples</title>
 
-    <title>travlr!</title>
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-directionsinputpanelexample.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel= "stylesheet" href="css\style.css" >
 </head>
 
-<body>
-    <canvas class="main">
-        blahhh delete me
-    </canvas>
-    <div class="main-text">
-    <header>
-        <img id="travlr-logo">
-        <h1 id="travlr-text">travlr!</h1>
-    </header>
-    <section id="location-routing">
-        <div>
-            <form id="location-form">
-                <label for="start-location"></label>
-                <input id="start-location" type="text" placeholder="Start Location" id="location-form-start">
-                <label for="end-location"></label>
-                <input id="end-location" type="text" placeholder="End Location" id="location-form-end">
-            </form>
-        </div>
-        <div>
-            <label for="avoid-tolls-box">Avoid Tolls</label>
-            <input id="avoid-tolls-box" type="checkbox" placeholder="Tolls">
-            <label for="get-route"></label>
-            <input id="get-route" type="button" placeholder="Get Route" id="get-route-button" value="Get Route">
-        </div>
-    </section>
-    <section id="gas-calculation">
-        <form id="car-info">
-            <label for="get-car-year"></label>
-            <select id="get-car-year"></select>
-            <label for="get-car-make"></label>
-            <select id="get-car-make"></select>
-            <label for="get-car-model"></label>
-            <select id="get-car-model"></select>
-            <label for="get-car-engine"></label>
-            <select id="get-car-engine"></select>
-            <p id="get-average-mpg">
-        </form>
-    </section>
-    <section>
-        <div id="directionsItinerary"></div>
-        <div id="routing-image"></div>
-    </section>
-    <section id="budget-information">
-        <div id="trip-summary">
-            <h2>
-                Trip Summary
-            </h2>
-            <hr>
-            <ul id="trip-info-box">
-                <li id="trip-info-distance">
+<body class="main">
+    
+    <div id="canvas-wrapper">
+        <canvas id="granim-canvas"></canvas>
+        <div class="content-wrapper">
+            <div class="container-text">
+                <header class="col s3">
+                    <div class="col s3">
+                        <img id="travlr-logo" src="./img/travlrlogo.png">
+                        <h1 class="col s3" id="travlr-text"></h1>
+                    </div>
+                </header>
 
-                </li>
-                <li id="trip-info-average-mpg">
+                <div class="row">
+                    <div class="col s12 m12 l4">
+                        <section id="location-routing" class=" column s4 m4 z-depth-2">
+                            <div class="card-panel">
+                                <div class="directionsContainer">
+                                    <div id="directionsPanel"></div>
+                                    <div id="directionsItinerary"></div>
+                                </div>
+                            </div>
+                        </section>
 
-                </li>
-                <li id="trip-info-tolls-avoided">
+                        <section id="gas-calculation" class="column s4 m4">
+                            <div class="card-panel">
+                                <form id="car-info">
+                                    <label for="get-car-year">Get Car Year</label>
+                                    <select id="get-car-year" class="browser-default"></select>
+                                    <br>
+                                    <label for="get-car-make">Get Car Make</label>
+                                    <select id="get-car-make" class="browser-default"></select>
+                                    <br>
+                                    <label for="get-car-model">Get Car model</label>
+                                    <select id="get-car-model" class="browser-default"></select>
+                                    <br>
+                                    <label for="get-car-engine">Get Car Engine</label>
+                                    <select id="get-car-engine" class="browser-default"></select>
+                                    <hr>
+                                    <p id="get-average-mpg">Your MPG: <span id="gas-mpg-output"></span></p>
+                                </form>
+                            </div>
+                        </section>
 
-                </li>
-            </ul>
+                        <section class="route-img column s4 m4 l9">
+                            <div id="myMap"></div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <section id="budget-information" class="col s6 offset-s6">
+                        <div id="trip-summary" class="col s6">
+                            <div class="card-panel">
+                                <h2>Trip Summary</h2>
+                                <hr>
+                                <ul id="trip-info-box">
+                                    <li id="trip-info-distance">0</li>
+                                    <li id="trip-info-average-mpg">0</li>
+                                    <li id="trip-info-tolls-avoided">Yes</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="budget-calculation-container" class="col s6">
+                            <div class="card-panel">
+                                <form id="user-budget-input">
+                                    <label for="user-total-budget">
+                                    </label>
+                                    <input id="user-total-budget" type="number" placeholder="Total Budget">
+                                    <label for="user-budget-snacks">
+                                    </label>
+                                    <input id="user-budget-snacks" type="number" placeholder="Snack Budget">
+                                </form>
+                                <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
+                                <hr>
+                                <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
-        <div id="budget-calculation-container">
-            <form id="user-budget-input">
-                <label for="user-total-budget">
-                </label>
-                <input id="user-total-budget" type="number">
-                <label for="user-budget-snacks">
-                </label>
-                <input id="user-budget-snacks" type="number">
-            </form>
-            <p id="gas-budget-cost">$<span id="gas-budget-calculation"></span></p>
-            <hr>
-            <p id="final-budget-leftovers">$<span id="final-budget-calculation"></p>
-        </div>
-    </section>
     </div>
-    <!-- Get Route Information Section -->
-    <!-- Get Route Information Section -->
-    <!-- Gas Calculation Section -->
-    <!-- Bing Static Image -->
-    <!-- Trip Information Section -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/granim/2.0.0/granim.min.js"></script>
-    <script src="javascript/script.js"></script>
-
+    <script src="javascript\script.js"></script>
 
 </body>
-
 </html>

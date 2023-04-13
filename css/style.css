@@ -1,5 +1,16 @@
-.main {
-    position: absolute;
+* {
+    color: #4d8581;
+}
+
+html, body{
+    padding:0;
+    margin:0;
+    width: 100%;
+    height:100%;
+}
+
+#granim-canvas {
+    position: fixed;
     display: block;
     width: 100%;
     height: 100%;
@@ -10,21 +21,77 @@
     z-index: -3;
 }
 
-.main-text{
+.content-wrapper {
     position: relative;
 }
-/*Roy-Bing-Map-Style*/
-.directionsContainer{
-    width:380px;
-    height:100%;
-    overflow-y:auto;
-    float:left;
+
+#myMap{
+    width: 50%;
+    height: 65%;
+    border: 10px solid #4d8581;
+    position: absolute;
+    top: 1px;
+    right: 1px;
 }
 
-.routing-imaging{
-    position:relative;
-    width:calc(100% - 380px);
-    height:100%;
-    float:left;
+#travlr-logo {
+    width: 250px;
+    height: 250px;
+    background-color: #4d8581;
+    border: 5px solid #b0988e;
 }
-/*Roy-Bing-Map-Style*/
+
+.card-panel {
+    background-color: #eee7df;
+    height: auto;
+}
+
+#location-routing {
+    border: 10px solid #4d8581;
+    background: #b0988e;
+}
+
+.directionsContainer{
+    width:380px;
+    height:50%;
+    overflow-y:auto;
+}
+
+#gas-calculation {
+    width: 17%;
+    height: auto;
+    border: 10px solid #4d8581;
+    background-color: #b0988e;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-1%,-68%);
+}
+
+#gas-calculation label {
+    color: black;
+}
+
+#trip-summary{
+    border: 3px solid black;
+}
+
+#budget-information {
+    width: auto;
+    height: auto;
+    margin-top: 20px;
+    border: 10px solid #4d8581;
+    background-color: #b0988e;
+}
+
+h2 {
+    font-size: large;
+}
+
+#budget-calculation-container {
+    border: 3px solid black;
+}
+
+footer {
+    background-color: #4d8581;
+}
