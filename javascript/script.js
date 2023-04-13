@@ -20,6 +20,8 @@ let userSnacks = document.getElementById("user-budget-snacks");
 let userOutput = document.getElementById("gas-budget-calculation");
 let userLeftOver = document.getElementById("final-budget-calculation");
 let getPrice = document.getElementById("get-price");
+let tripInfo = document.getElementById("trip-info-box")
+let priceOfGas = document.getElementById("price-of-gas");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -30,7 +32,7 @@ let getPrice = document.getElementById("get-price");
 
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
-//Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
+//Figure out how to get distance from a REST FETCH somehow how?? based on two zlat long waypoints.
 //Initialize variables that we can use for other functions
 let siteInitialized = false;
 let carYear;
@@ -46,20 +48,12 @@ let userTypingTimer;
 let userTypingTimer2;
 let doneTypingTimer = 250;
 let location1 = "Berkley, CA"
-let location2 = "Berkley, CA"
+let location2 = "San Francisco, CA"
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
 
-let init = () => {
-    initializeOptions();
-    getGasPrice();
-
-    getLocation(assignLocation(location1));
-    getLocation(assignLocation(location2));
-    drawMap();
-}
 
 //Function that encodes and assigns the input text to a location variable.
 let assignLocation = (inputText) => {
@@ -128,6 +122,7 @@ let getRouteInfo = (location1_input, location2_input) => {
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
             travelDistance = data.resourceSets[0].resources[0].travelDistance;
             travelDistance = travelDistance.toFixed(2);
+            tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
             return;
         })
 
@@ -169,6 +164,8 @@ let drawOptions = (items, list) => {
     //Create a button,
     //append it to the list
     //redraw the list
+
+    //This IF is if it finds singular objects.
     if (items.text){
         let currItem = items.text
         let currVal = items.value
@@ -177,6 +174,7 @@ let drawOptions = (items, list) => {
         currOption.innerHTML = currItem;
         list.appendChild(currOption)
     } else {
+        //Else, if found multiple objects (a list, and goes through it.);
         for(let i = 0; i < items.length; i++){
             let currItem = items[i].text
             let currVal = items[i].value
@@ -243,7 +241,7 @@ let fetchResult = (url, type) => {
         if(data.regular && type == "gas"){
 
             gasPrice = data.regular
-            return;
+            return gasPrice;
         //The responses are consistently inside of .menuItem for car-items
         } else if(data.menuItem){
             items = data.menuItem
@@ -251,7 +249,13 @@ let fetchResult = (url, type) => {
             //Condition for MPGs, stores MPG here.
         } else if (data.avgMpg && type == "mpg"){
             carMPG = parseFloat(data.avgMpg).toFixed(2);
+
             price = (gasPrice / carMPG).toFixed(2)
+            //Create the P Element and append the price to it.
+            priceOfGas.innerHTML = `Price of Gas per Gallon is: $${gasPrice}`;
+
+
+            tripAverageMPG.innerHTML = `Average MPG Price: $${price} per Mile`
             return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG}`;
         } else {
             //Condition should not be met, but it *COULD* be.
@@ -264,13 +268,14 @@ let fetchResult = (url, type) => {
         console.log("It was probably the MPG Retrieval.")
         console.log(err)
         mpgInfo.innerHTML = `Could not find MPG for ${carModel}, some engines don't have MPG listed in the database. Try a 2012 Honda Civic for a result.`
+        tripAverageMPG.innerHTML = `Average MPG Price: Could not Retrieve!`
     })
     ;
 }
 
 let getGasPrice = () => {
     //Get the price of gas.
-    modularFetch("gas");
+    return modularFetch("gas");
 }
 
 let initializeYears = () => {
@@ -323,6 +328,20 @@ let initializeOptions = (redrawMe) => {
 }
 
 //Initializes website
+let init = () => {
+    initializeOptions();
+    getGasPrice();
+
+    priceOfGas.innerHTML = `Price of Gas per Gallon is:`;
+    assignLocation(location1)
+    assignLocation(location2)
+    getLocation(location1);
+    getLocation(location2);
+    getRouteInfo(location1, location2);
+    drawMap();
+}
+
+
 init();
 // DANIEL-FUNCTIONS
 // VICTORIA-FUNCTIONS
@@ -459,6 +478,7 @@ var granimInstance = new Granim({
             modularFetch(carEngine)
         }
 
+
     })
 
     getRouteButton.addEventListener("click", (event) => {
@@ -468,7 +488,7 @@ var granimInstance = new Granim({
         getRouteInfo(location1, location2);
         drawMap();
         tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
-        tripAverageMPG.innerHTML = `Average MPG Price: ${price}`
+
 
 
     })
