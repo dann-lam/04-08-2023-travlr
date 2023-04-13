@@ -17,8 +17,8 @@ let tripDistance = document.getElementById("trip-info-distance");
 let tripAverageMPG = document.getElementById("trip-info-average-mpg");
 let userBudget = document.getElementById("user-total-budget");
 let userSnacks = document.getElementById("user-budget-snacks");
-let userOutput = document.getElementById("gas-budget-calculations");
-let userLeftOvers = document.getElementById("final-budget-calculation");
+let userOutput = document.getElementById("gas-budget-calculation");
+let userLeftOver = document.getElementById("final-budget-calculation");
 let getPrice = document.getElementById("get-price");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -473,13 +473,9 @@ var granimInstance = new Granim({
 
     getPrice.addEventListener("click", (event) => {
         event.preventDefault;
-        let calc = userBudget.value - userSnacks.value - (travelDistance * price)
-        console.log(userBudget.value)
-        console.log(userSnacks.value)
-        console.log(travelDistance)
-        console.log(price)
-        console.log(calc);
-        userOutput.innerHTML = `${calc}`
+        let calc = (travelDistance * price)
+        userOutput.innerHTML = `${calc.toFixed(2)}`
+        userLeftOver.innerHTML = `${(userBudget.value - calc.toFixed(2)).toFixed(2) - userSnacks.value}`
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
