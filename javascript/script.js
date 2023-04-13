@@ -13,6 +13,13 @@ let carInfo = document.getElementById("car-info");
 let mpgInfo = document.getElementById("get-average-mpg")
 let averageMPGCost = document.getElementById("trip-info-average-mpg");
 let checkBox = document.getElementById("avoid-tolls-box");
+let tripDistance = document.getElementById("trip-info-distance");
+let tripAverageMPG = document.getElementById("trip-info-average-mpg");
+let userBudget = document.getElementById("user-total-budget");
+let userSnacks = document.getElementById("user-budget-snacks");
+let userOutput = document.getElementById("gas-budget-calculations");
+let userLeftOvers = document.getElementById("final-budget-calculation");
+let getPrice = document.getElementById("get-price");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -32,13 +39,14 @@ let carModel;
 let carEngine;
 let carMPG;
 let gasPrice;
+let price;
 //Initialize options for years.
 
 let userTypingTimer;
 let userTypingTimer2;
 let doneTypingTimer = 250;
-let location1 = "location1String"
-let location2 = "location2String"
+let location1 = "Berkley, CA"
+let location2 = "Berkley, CA"
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
@@ -47,6 +55,10 @@ let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
 let init = () => {
     initializeOptions();
     getGasPrice();
+
+    getLocation(assignLocation(location1));
+    getLocation(assignLocation(location2));
+    drawMap();
 }
 
 //Function that encodes and assigns the input text to a location variable.
@@ -239,8 +251,8 @@ let fetchResult = (url, type) => {
             //Condition for MPGs, stores MPG here.
         } else if (data.avgMpg && type == "mpg"){
             carMPG = parseFloat(data.avgMpg).toFixed(2);
-            let price = (gasPrice / carMPG).toFixed(2)
-            return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG} cost per mile is $${price}.`;
+            price = (gasPrice / carMPG).toFixed(2)
+            return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG}`;
         } else {
             //Condition should not be met, but it *COULD* be.
             console.log("What did you do nooooowww");
@@ -453,6 +465,21 @@ var granimInstance = new Granim({
         getLocation(location2);
         getRouteInfo(location1, location2);
         drawMap();
+        tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
+        tripAverageMPG.innerHTML = `Average MPG Price: ${price}`
+
+
+    })
+
+    getPrice.addEventListener("click", (event) => {
+        event.preventDefault;
+        let calc = userBudget.value - userSnacks.value - (travelDistance * price)
+        console.log(userBudget.value)
+        console.log(userSnacks.value)
+        console.log(travelDistance)
+        console.log(price)
+        console.log(calc);
+        userOutput.innerHTML = `${calc}`
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
