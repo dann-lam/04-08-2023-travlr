@@ -235,11 +235,11 @@ anime({
 // }
 var granimInstance = new Granim({
     element: '#granim-canvas',
-    direction: 'top-bottom',
+    direction: 'left-right',
     isPausedWhenNotInView: true,
     
      image : {
-         source: 'img/cracked-ground-opt1.jpg',
+         source: 'img/mountains-forest-png.png',
          position: ['center', 'center'],
          stretchMode: ['stretch', 'stretch'],
          blendingMode: 'multiply',
