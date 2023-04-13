@@ -1,16 +1,16 @@
 * {
-color: #4d8581;
+    color: #4d8581;
 }
 
 
-body{
+body {
     width: 100%;
     height: 100%;
 }
 
 
 
- #granim-canvas {
+#granim-canvas {
     position: fixed;
     display: block;
     width: 100%;
@@ -20,8 +20,9 @@ body{
     bottom: 0;
     left: 0;
     z-index: -3;
- }
-.content-wrapper{
+}
+
+.content-wrapper {
     position: relative;
 }
 
@@ -30,9 +31,9 @@ body{
     width: 100%;
     min-width: 500px;
     max-width: 1125px;
-    height: 500px;
+    height: 100%;
     min-height: 500px;
-    max-height: 700px ;
+    max-height: 700px;
     border: 10px solid #4d8581;
 }
 
@@ -50,7 +51,7 @@ body{
     padding: 0;
 } */
 
-#travlr-logo{
+#travlr-logo {
     width: 250px;
     height: 250px;
     background-color: #4d8581;
@@ -63,7 +64,7 @@ body{
     border: none;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
     text-align: center;
-    /* font-size: 100px; 
+    /* font-size: 100px;
 } */
 
 .card-panel {
@@ -75,40 +76,40 @@ body{
     background: #b0988e;
 }
 
-#submissions{
+#submissions {
     margin-left: 50px;
 }
 
-#get-route{
+#get-route {
     margin-left: 40px;
     width: 100px;
     height: 30px;
 }
 
-#gas-calculation{
+#gas-calculation {
     border: 10px solid #4d8581;
     background-color: #b0988e;
 }
 
-#gas-calculation label{
+#gas-calculation label {
     color: black;
 }
 
 
-#budget-information{
+#budget-information {
     margin-top: 20px;
     border: 10px solid #4d8581;
     background-color: #b0988e;
 }
 
-h2{
+h2 {
     font-size: large;
 }
 
-#budget-calculation-container{
-border: 3px solid black
+#budget-calculation-container {
+    border: 3px solid black
 }
 
-footer{
+footer {
     background-color: #4d8581;
 }
