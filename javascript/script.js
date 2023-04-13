@@ -13,6 +13,15 @@ let carInfo = document.getElementById("car-info");
 let mpgInfo = document.getElementById("get-average-mpg")
 let averageMPGCost = document.getElementById("trip-info-average-mpg");
 let checkBox = document.getElementById("avoid-tolls-box");
+let tripDistance = document.getElementById("trip-info-distance");
+let tripAverageMPG = document.getElementById("trip-info-average-mpg");
+let userBudget = document.getElementById("user-total-budget");
+let userSnacks = document.getElementById("user-budget-snacks");
+let userOutput = document.getElementById("gas-budget-calculation");
+let userLeftOver = document.getElementById("final-budget-calculation");
+let getPrice = document.getElementById("get-price");
+let tripInfo = document.getElementById("trip-info-box")
+let priceOfGas = document.getElementById("price-of-gas");
 // DANIEL-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
 // VICTORIA-GET-ELEMENT
@@ -23,7 +32,7 @@ let checkBox = document.getElementById("avoid-tolls-box");
 
 // ROY-FUNCTIONS
 // DANIEL-FUNCTIONS
-//Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
+//Figure out how to get distance from a REST FETCH somehow how?? based on two zlat long waypoints.
 //Initialize variables that we can use for other functions
 let siteInitialized = false;
 let carYear;
@@ -32,22 +41,19 @@ let carModel;
 let carEngine;
 let carMPG;
 let gasPrice;
+let price;
 //Initialize options for years.
 
 let userTypingTimer;
 let userTypingTimer2;
 let doneTypingTimer = 250;
-let location1 = "location1String"
-let location2 = "location2String"
+let location1 = "Berkley, CA"
+let location2 = "San Francisco, CA"
 let travelDuration;
 let travelDistance;
 let travelDurationTraffic;
 let apiKey = "AhEgN-fj49LnYoTNAb3nT6XtcNw1KFBB5k0Qa6ktZGH3ynJDk7F3grkZfEqvjyUz"
 
-let init = () => {
-    initializeOptions();
-    getGasPrice();
-}
 
 //Function that encodes and assigns the input text to a location variable.
 let assignLocation = (inputText) => {
@@ -63,7 +69,7 @@ let assignLocation = (inputText) => {
 //Lat Lon router, accepts a string name stored in location1 or location2.
 let getLocation = (location_input) => {
 
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
+    let baseUrl = `https://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
@@ -77,14 +83,13 @@ let getLocation = (location_input) => {
             let lat = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
             let lon = data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]
             //Need error handlers.
-
+            //The location we fed into this is converted into a lat lon string E.G: "123,-123"
             location_input = `${lat}, ${lon}`
 
             return
         })
 
 }
-
 
 
 //get Route information that we'll use to calculate distance.
@@ -100,7 +105,7 @@ let getRouteInfo = (location1_input, location2_input) => {
     } else {
         avoid = "";
     }
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1_input}&wayPoint.2=${location2_input}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
+    let baseUrl = `https://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1_input}&wayPoint.2=${location2_input}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
@@ -112,10 +117,16 @@ let getRouteInfo = (location1_input, location2_input) => {
         })
         //grabs and assigns our wanted data.
         .then(function (data){
+            //Digs through the returned data, and assigns the value to our global variables of travelDuration and travelDistance
             travelDuration = data.resourceSets[0].resources[0].travelDuration;
+
             travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
+
             travelDistance = data.resourceSets[0].resources[0].travelDistance;
             travelDistance = travelDistance.toFixed(2);
+            //Input our information onto the page.
+            //Travel duration returns only seconds, so we convert it to hours.
+            tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
             return;
         })
 
@@ -146,6 +157,8 @@ let drawMap = () => {
 //Handles drawing of list items.
 let drawOptions = (items, list) => {
     //Empty the list
+    //Items is that big list of car thingies from the response
+    //list = getCarMake which is a Element on the HTML page.
     list.innerHTML = '';
     //Recreate start option
     let startOption = document.createElement("option");
@@ -157,6 +170,8 @@ let drawOptions = (items, list) => {
     //Create a button,
     //append it to the list
     //redraw the list
+
+    //This IF is if it finds singular objects.
     if (items.text){
         let currItem = items.text
         let currVal = items.value
@@ -165,6 +180,7 @@ let drawOptions = (items, list) => {
         currOption.innerHTML = currItem;
         list.appendChild(currOption)
     } else {
+        //Else, if found multiple objects (a list, and goes through it.);
         for(let i = 0; i < items.length; i++){
             let currItem = items[i].text
             let currVal = items[i].value
@@ -176,6 +192,7 @@ let drawOptions = (items, list) => {
     }
 
 }
+// modularFetch("2345235")
 
 let modularFetch = (year, make, model) => {
     let mode;
@@ -228,19 +245,27 @@ let fetchResult = (url, type) => {
 
     })
     .then(function (data){
+        console.log(data)
         if(data.regular && type == "gas"){
 
             gasPrice = data.regular
-            return;
+            return gasPrice;
         //The responses are consistently inside of .menuItem for car-items
         } else if(data.menuItem){
             items = data.menuItem
             return drawOptions(items, type);
             //Condition for MPGs, stores MPG here.
         } else if (data.avgMpg && type == "mpg"){
+            //computer sees data.avgMpg = "20.235235235235235"
             carMPG = parseFloat(data.avgMpg).toFixed(2);
-            let price = (gasPrice / carMPG).toFixed(2)
-            return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG} cost per mile is $${price}.`;
+
+            price = (gasPrice / carMPG).toFixed(2)
+            //Create the P Element and append the price to it.
+            priceOfGas.innerHTML = `Price of Gas per Gallon is: $${gasPrice}`;
+
+
+            tripAverageMPG.innerHTML = `Average MPG Price: $${price} per Mile`
+            return mpgInfo.innerHTML = `MPG for ${carModel}: ${carMPG}`;
         } else {
             //Condition should not be met, but it *COULD* be.
             console.log("What did you do nooooowww");
@@ -252,13 +277,14 @@ let fetchResult = (url, type) => {
         console.log("It was probably the MPG Retrieval.")
         console.log(err)
         mpgInfo.innerHTML = `Could not find MPG for ${carModel}, some engines don't have MPG listed in the database. Try a 2012 Honda Civic for a result.`
+        tripAverageMPG.innerHTML = `Average MPG Price: Could not Retrieve!`
     })
     ;
 }
 
 let getGasPrice = () => {
     //Get the price of gas.
-    modularFetch("gas");
+    return modularFetch("gas");
 }
 
 let initializeYears = () => {
@@ -311,6 +337,21 @@ let initializeOptions = (redrawMe) => {
 }
 
 //Initializes website
+//Starts putting stuff on the site.
+let init = () => {
+    initializeOptions();
+    getGasPrice();
+
+    priceOfGas.innerHTML = `Price of Gas per Gallon is:`;
+    assignLocation(location1)
+    assignLocation(location2)
+    getLocation(location1);
+    getLocation(location2);
+    getRouteInfo(location1, location2);
+    drawMap();
+}
+
+
 init();
 // DANIEL-FUNCTIONS
 // VICTORIA-FUNCTIONS
@@ -348,7 +389,7 @@ var granimInstance = new Granim({
     element: '#granim-canvas',
     direction: 'left-right',
     isPausedWhenNotInView: true,
-    
+
      image : {
          source: 'img/mountains-forest-png.png',
          position: ['center', 'center'],
@@ -400,12 +441,14 @@ var granimInstance = new Granim({
     //Listens for a change in the event on the carInfo Form
     getCarYear.addEventListener("change", (event) => {
         carYear = event.target.value;
+        //the value of select.value = "";
         //If the user selects "select", then reset the list.
         //This is done to protect users from making unintended combinations.
         if(carYear){
-            modularFetch(carYear);
+            modularFetch(carYear)
+            initializeOptions(getCarModel);
+            initializeOptions(getCarEngine);
         } else {
-
             initializeOptions(getCarMake)
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -417,7 +460,10 @@ var granimInstance = new Granim({
         //If the user selects "select", then reset the list.
         //This is done to protect users from making unintended combinations.
         if (carMake){
+
             modularFetch(carYear, carMake);
+
+            initializeOptions(getCarEngine);
         } else {
             initializeOptions(getCarModel);
             initializeOptions(getCarEngine);
@@ -443,14 +489,32 @@ var granimInstance = new Granim({
             modularFetch(carEngine)
         }
 
+
     })
 
     getRouteButton.addEventListener("click", (event) => {
         event.preventDefault;
+        //21%20%jumpst
         getLocation(location1);
+        //Get location takes in our converted string
+        //and reassigns lat lons to location that was input
         getLocation(location2);
+        //takes in both lat lons and retrieves distance and time for travel
         getRouteInfo(location1, location2);
+        //takes in lat lons, and retrieves a picture.
         drawMap();
+        //takes our distance and duration and reassigns it to our page.
+        tripDistance.innerHTML = `Travel Distance: ${travelDistance}<br> Travel Duration: ${(travelDuration/60/60).toFixed(2)} Hour;`;
+
+
+
+    })
+
+    getPrice.addEventListener("click", (event) => {
+        event.preventDefault;
+        let calc = (travelDistance * price)
+        userOutput.innerHTML = `${calc.toFixed(2)}`
+        userLeftOver.innerHTML = `${(userBudget.value - calc.toFixed(2) - userSnacks.value).toFixed(2)}`
     })
 // DANIEL-EVENT-LISTENERS
 // VICTORIA-EVENT-LISTENERS
