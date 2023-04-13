@@ -26,7 +26,7 @@ let checkBox = document.getElementById("avoid-tolls-box");
 //Figure out how to get distance from a REST FETCH somehow how?? based on two lat long waypoints.
 let userTypingTimer;
 let userTypingTimer2;
-let doneTypingTimer = 1250;
+let doneTypingTimer = 500;
 let location1 = "location1String"
 let location2 = "location2String"
 let travelDuration;
