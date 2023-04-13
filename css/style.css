@@ -27,7 +27,7 @@ html, body{
 
 #myMap{
     width: 50%;
-    height: 65%;
+    height: 50%;
     border: 10px solid #4d8581;
     position: absolute;
     top: 1px;
@@ -47,8 +47,12 @@ html, body{
 }
 
 #location-routing {
+    height: auto;
     border: 10px solid #4d8581;
     background: #b0988e;
+    position: absolute;
+    left: 1px;
+    transform: translate(0%,-5%);
 }
 
 .directionsContainer{
@@ -58,14 +62,14 @@ html, body{
 }
 
 #gas-calculation {
-    width: 17%;
+    width: 18%;
     height: auto;
     border: 10px solid #4d8581;
     background-color: #b0988e;
     position: absolute;
     top: 50%;
     right: 50%;
-    transform: translate(-1%,-68%);
+    transform: translate(-1%,-25%);
 }
 
 #gas-calculation label {
