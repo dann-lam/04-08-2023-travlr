@@ -69,7 +69,7 @@ let assignLocation = (inputText) => {
 //Lat Lon router, accepts a string name stored in location1 or location2.
 let getLocation = (location_input) => {
 
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
+    let baseUrl = `https://dev.virtualearth.net/REST/v1/Locations?q=${location_input}&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
@@ -105,7 +105,7 @@ let getRouteInfo = (location1_input, location2_input) => {
     } else {
         avoid = "";
     }
-    let baseUrl = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1_input}&wayPoint.2=${location2_input}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
+    let baseUrl = `https://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location1_input}&wayPoint.2=${location2_input}&avoid=${avoid}&distanceUnit=mi&key=${apiKey}`
         fetch(baseUrl, {})
         .then(function (response) {
             if (response.ok){
